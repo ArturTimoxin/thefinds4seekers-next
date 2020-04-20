@@ -4,7 +4,6 @@ import { AdsService } from './ads.service';
 import { AdSchema } from './schemas/ad.schema';
 import { LocationSchema } from './schemas/location.schema'
 import { MongooseModule } from '@nestjs/mongoose';
-
 @Module({
   imports: [
     MongooseModule.forFeature([

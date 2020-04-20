@@ -11,6 +11,8 @@ import { AppService } from './app.service';
 import { PointsModule } from './points/points.module';
 import { AdsModule } from './ads/ads.module';
 import { UploadsController } from './uploads/uploads.controller';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -23,6 +25,8 @@ import { UploadsController } from './uploads/uploads.controller';
     }),
     PointsModule,
     AdsModule,
+    UsersModule,
+    AuthModule,
   ],
   controllers: [AppController, UploadsController],
   providers: [
