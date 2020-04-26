@@ -1,8 +1,8 @@
 import { IsString, IsNumber, IsDateString, ValidateNested, IsOptional, IsDefined, ValidateIf } from 'class-validator';
 import { Type } from 'class-transformer';
 import { LocationDto } from './location.dto';
-import { UserInfoDto } from './user-info.dto'; 
-
+import { UserInfoDto } from '../../users/dto/user-info.dto'; 
+import { Document } from 'mongoose';
 export class RegisterAdDto {
     @IsString()
     readonly title!: string;
@@ -10,13 +10,13 @@ export class RegisterAdDto {
     @IsString()
     readonly description!: string;
 
-    readonly photos?: any[];
+    readonly photos?: string[];
 
     @IsNumber()
-    readonly type_id!: number;
+    readonly typeId!: number;
 
     @IsNumber()
-    readonly category_id!: number;
+    readonly categoryId!: number;
 
     @IsDefined()
     @ValidateNested()
@@ -30,14 +30,14 @@ export class RegisterAdDto {
 
     @IsOptional()
     @IsDateString()
-    readonly lost_or_found_at?: Date;
+    readonly lostOrFoundAt?: Date;
 
     @IsOptional()
     @IsString()
-    readonly secret_question?: string;
+    readonly secretQuestion?: string;
 
     // validate answer if req has secret_question
     @ValidateIf(regAd => regAd.secret_question)
     @IsString()
-    readonly secret_answer?: string;
+    readonly secretAnswer?: string;
 }

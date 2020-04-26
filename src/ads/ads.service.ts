@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException  } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model }  from 'mongoose';
+import { Model, Types }  from 'mongoose';
 import { Ad } from './interfaces/ad.interface';
 import { Location } from './interfaces/location.interface';
 import { LocationDto } from './dto/location.dto';
@@ -17,8 +17,35 @@ export class AdsService {
         return await newLocation.save();
     }
 
-    async createAd(ad: Ad): Promise<Ad> {
+    async createAd(ad: any): Promise<Ad> {
         const newAd = new this.adModel(ad);
         return await newAd.save();
+    }
+
+    async findOneAd(adId): Promise<Ad> {
+        if(!Types.ObjectId.isValid(adId)) {
+            throw new BadRequestException('Type error of ad id');
+        }
+        const ad = await this.adModel.findOne({ _id: adId });
+        if(!ad) {
+            throw new NotFoundException('Ad does not exist');
+        }
+        return ad;
+    }
+
+    async getLocations(): Promise<Location[]> {
+        return this.locationModel.find();
+    }
+
+    async getAdByLocationId(locationId): Promise<Ad> {
+
+        if(!Types.ObjectId.isValid(locationId)) {
+            throw new BadRequestException('Type error of location id');
+        }
+        const ad = await this.adModel.findOne({ locationId });
+        if(!ad) {
+            throw new NotFoundException('Ad does not exist');
+        }
+        return ad;
     }
 }

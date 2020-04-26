@@ -10,7 +10,7 @@ export const AdSchema  = new Schema({
     createdAt: { type: Date, default: Date.now() },
     lostOrFoundAt: Date,
     userId: Schema.Types.ObjectId,
-    secretQestion: String,
+    secretQuestion: String,
     secretAnswer: String,
     isApproved: Boolean,
     actualTo: Date,
