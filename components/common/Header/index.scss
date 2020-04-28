@@ -1,0 +1,83 @@
+.common-header {
+    height: 100px;
+    background-color: #7bddb2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 50px;
+}
+
+.title-logo {
+    width: 80px;
+    height: 70px;
+    cursor: pointer;
+}
+
+.search-icon {
+    width: 40px;
+    cursor: pointer;
+}
+
+.wrap-head-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 50%;
+}
+
+.account-logo {
+    width: 65px;
+    cursor: pointer;
+}
+
+.search-add-wrap {
+    display: flex;
+    height: 60px;
+    width: 675px;
+    position: relative;
+    .search-wrap {
+        background-color: #ffffff;
+        border-radius: 10px 0px 0px 10px;
+        width: 75%;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        .head-search-input {
+            height: 100%;
+            width: 80%;
+            background-color: #ffffff;
+            border: none;
+            outline: none;
+            font-size: 20px;
+            border-radius: 10px 0px 0px 10px;
+            padding-left: 10px;
+        }
+    }
+    .create-ad-btn {
+        height: 100%;
+        width: 25%;
+        background-color: #f4b769;
+        cursor: pointer;
+        outline: none;
+        border: none;
+        border-radius: 0px 10px 10px 0px;
+        display: flex;
+        align-items: center;
+        transition: all .3s;
+        &:hover {
+            background-color: #e29923;
+            
+        }
+        .create-ad-icon {
+            margin-left: 3px;
+            width: 30px;
+        }
+        .text {
+            margin-left: 5px;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            text-transform: uppercase;
+        }
+    }
+}

@@ -1,0 +1,22 @@
+// COMPONENTS STYLE INPORT
+@import './components/common/Header/index.scss';
+@import './components/common/AuthModal/index.scss';
+@import './components/common/Footer/index.scss';
+@import './components/register-ad/index.scss';
+@import './components/common/Map/index.scss';
+
+// PAGES STYLE IMPORT
+@import './pages/main.scss';
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    position: relative;
+}
+
+.main-content-container {
+    min-height: 90vh;
+}

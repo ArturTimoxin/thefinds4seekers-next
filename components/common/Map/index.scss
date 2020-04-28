@@ -1,0 +1,28 @@
+.point-wrap {
+    position: relative;
+}
+
+.point-icon {
+    position: absolute;
+    top: -50 !important;
+    left: -15 !important; 
+    width: 30px; 
+}
+
+.searchbox-input {   
+    width: 300px; 
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    .input-serch-place {
+        position: absolute;
+        z-index: 2;
+        width: 300px;
+        height: 50px;
+    }
+    .icon-z {
+        z-index: 3;
+        top: 25px !important;
+
+    }
+}
