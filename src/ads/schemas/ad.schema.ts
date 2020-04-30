@@ -6,7 +6,7 @@ export const AdSchema  = new Schema({
     photos: [String],
     typeId: Number,
     locationId: Schema.Types.ObjectId,
-    categoryId: Number,
+    categoryId: Schema.Types.ObjectId,
     createdAt: { type: Date, default: Date.now() },
     lostOrFoundAt: Date,
     userId: Schema.Types.ObjectId,

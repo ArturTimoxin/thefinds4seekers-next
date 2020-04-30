@@ -1,8 +1,7 @@
-import { IsString, IsNumber, IsDateString, ValidateNested, IsOptional, IsDefined, ValidateIf } from 'class-validator';
+import { IsString, IsNumber, IsDateString, ValidateNested, IsOptional, IsDefined, ValidateIf, IsMongoId } from 'class-validator';
 import { Type } from 'class-transformer';
 import { LocationDto } from './location.dto';
 import { UserInfoDto } from '../../users/dto/user-info.dto'; 
-import { Document } from 'mongoose';
 export class RegisterAdDto {
     @IsString()
     readonly title!: string;
@@ -12,11 +11,11 @@ export class RegisterAdDto {
 
     readonly photos?: string[];
 
-    @IsNumber()
-    readonly typeId!: number;
+    @IsString()
+    readonly typeId!: string;
 
-    @IsNumber()
-    readonly categoryId!: number;
+    @IsMongoId()
+    readonly categoryId!: string;
 
     @IsDefined()
     @ValidateNested()

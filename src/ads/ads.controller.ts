@@ -1,27 +1,34 @@
 import { Controller, Get, Post, Body, Param, UseInterceptors, UploadedFiles } from '@nestjs/common';
-import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { generatePassword } from '../shared/generate-password.util';
 import { RegisterAdDto } from './dto/register-ad.dto';
 import { AdsService } from './ads.service';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from '../users/users.service';
+import { AuthService } from '../auth/auth.service';
 import { Ad } from './interfaces/ad.interface';
 import { Location } from './interfaces/location.interface';
+import { Category } from './interfaces/category.interface';
+import { Payload } from '../auth/interfaces/payload.interface';
 import { sendMessageToEmail } from '../shared/mail-transporter';
 import { getRegisterAdAndUserText } from '../shared/email-texts.util';
 import { addMonth } from '../shared/add-month.util';
-
-const MAX_COUNT_UPLOAD_PHOTOS = 3;
 @Controller('ads')
 export class AdsController {
 
     constructor(
         private readonly adsService: AdsService,
         private readonly usersService: UsersService,
+        private readonly authService: AuthService,
     ) {}
 
     @Get('locations')
     getAllLocations(): Promise<Location[]>  {
         return this.adsService.getLocations();
+    }
+
+    @Get('categories')
+    getCategories(): Promise<Category[]> {
+        return this.adsService.getCategories();
     }
 
     @Get(':id')
@@ -30,10 +37,8 @@ export class AdsController {
     }
 
     @Post()
-    @UseInterceptors(FileFieldsInterceptor([
-        { name: 'photos', maxCount: MAX_COUNT_UPLOAD_PHOTOS },
-    ]))
-    async createAd(@Body() registerAdDto: RegisterAdDto, @UploadedFiles() photos): Promise<Ad> {
+    @UseInterceptors(FilesInterceptor('photos'))
+    async createAd(@Body() registerAdDto: RegisterAdDto, @UploadedFiles() photos) {
 
         const newLocation = await this.adsService.createLocation(registerAdDto.location);
         const { email, phone, firstname, lastname } = registerAdDto.user;
@@ -54,7 +59,7 @@ export class AdsController {
             title,
             description,
             photos: [],
-            typeId,
+            typeId: +typeId,
             locationId: newLocation._id,
             categoryId,
             createdAt: new Date(),
@@ -66,11 +71,19 @@ export class AdsController {
             actualTo: addMonth(new Date(), 2)
         };
 
-        if(photos && !photos.length) {
+        if(photos && photos.length) {
             adInfo.photos = photos.map(photo => photo.originalname);
         }
 
-        return this.adsService.createAd(adInfo);
+        await this.adsService.createAd(adInfo);
+        
+        const payload: Payload = {
+            email: user.email,
+            isAdmin: false,
+        }
+        const token = await this.authService.signPayload(payload);
+
+        return { user, token };
     }
 
     @Get('locations/:id')
@@ -78,4 +91,3 @@ export class AdsController {
         return this.adsService.getAdByLocationId(id);
     }
 }
-

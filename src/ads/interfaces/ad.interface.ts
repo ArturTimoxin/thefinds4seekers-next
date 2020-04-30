@@ -6,7 +6,7 @@ export interface Ad extends Document {
     photos: string[],
     typeId: number,
     locationId: string,
-    categoryId: number,
+    categoryId: string,
     createdAt: Date,
     lostOrFoundAt?: Date,
     userId: string,

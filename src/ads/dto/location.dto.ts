@@ -1,13 +1,12 @@
 import { IsNumber, IsString } from "class-validator"; 
-import { Document } from 'mongoose';
 export class LocationDto {
     
     @IsString()
     readonly address: string;
 
-    @IsNumber()
-    readonly lat: number;
+    @IsString()
+    readonly lat: string;
 
-    @IsNumber()
-    readonly lng: number;
+    @IsString()
+    readonly lng: string;
 }
