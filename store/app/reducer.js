@@ -5,6 +5,7 @@ const initialState = {
     token: null,
     isOpenAuthModal: false,
     isLoginAuthModalMode: true,
+    adsCategories: [],
 };
 
 export default (state = initialState, action) => {
@@ -34,6 +35,12 @@ export default (state = initialState, action) => {
               ...state,
             isLoginAuthModalMode: action.payload.isLogin,
           }
+      }
+      case constants.SET_ADS_CATEGORIES: {
+        return {
+          ...state,
+          adsCategories: action.payload.adsCategories,
+        }
       }
       default:
         return state;

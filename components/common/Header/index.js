@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import Link from "next/link";
 import Search from './Search';
-import LogoTitle from '../../../assets/logo.png';
+import LogoTitle from '../../../assets/logo2.png';
 import AccountBtn from './AccountBtn';
 import AuthModal from '../AuthModal';
 import { connect } from "react-redux";

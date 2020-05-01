@@ -4,6 +4,8 @@ import { Provider } from "react-redux";
 import App from "next/app";
 import Layout from "../components/common/Layout";
 import withRedux from "next-redux-wrapper";
+import "react-datepicker/dist/react-datepicker.css";
+import 'react-phone-input-2/lib/semantic-ui.css';
 import '../index.scss';
 
 class TheFinds4Seekers extends App {

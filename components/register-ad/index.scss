@@ -1,7 +1,127 @@
+.wrap-register-ad-page {
+    position: relative;
+}
+
 .register-point-map-container {
     position: relative;
     width: 100%;
-    height: 50vh;
-    min-height: 500px;
+    height: 600px;
     margin-top: -20px;
+    z-index: 0;
+}
+
+.wrap-register-ad-form {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 200px;
+} 
+
+.register-ad-form {
+    position: absolute;
+    top: -100px;
+    width: 75%;
+    border-radius: 7px;
+    min-height: 400px;
+    background-color: #b0e2d0;
+    z-index: 10;
+    box-shadow: 5px 20px 50px rgba(0, 0, 0, 0.5);
+    padding: 40px 40px 20px 40px;
+    color: #464947;
+    display: flex;
+}
+
+.reg-form-main-column-wrap {
+    width: 65%;
+    min-width: 300px;
+}
+
+.wrap-head-reg-form {
+    display: flex;
+    align-items: center;
+    .title-register-ad-form {
+        text-transform: uppercase;
+        margin: 0;
+    }
+    .choose-type-text {
+        margin-left: 20px;
+        font-size: 20px;
+    }
+}
+
+.chose-type-ad-btn {
+    margin-left: 20px !important;
+}
+
+.reg-form-fields {
+    margin-top: 20px;
+}
+
+.reg-form-label {
+    font-size: 20px;
+}
+
+.reg-form-subcolumn-wrap {
+    width: 35%;
+    padding: 50px 50px 0px 50px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.upload-photos {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+}
+
+.choose-photos-label {
+    cursor: pointer;
+}
+
+.choose-photos-input {
+    display: flex;
+    width: 100%;
+    min-height: 290px;
+    justify-content: space-between;
+    .main-photo-input {
+        width: 65%;
+        height: 290px;
+        border: 3px solid #57bf99;
+        background-color: #ffffff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .sub-photos-inputs-wrap {
+        width: 30%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .sub-photo-input {
+            height: 140px;
+            border: 3px solid #57bf99;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+    .photo-preview {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .plus-icon {
+        width: 60px;
+    }
+}
+
+.submit-reg-ad-form-btn {
+    width: 100%;
+}
+
+.wrap-user-info-fields {
+    margin-bottom: 2em;
 }

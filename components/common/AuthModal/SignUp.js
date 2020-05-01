@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Modal, Form, Message } from 'semantic-ui-react';
 import PhoneInput from 'react-phone-input-2';
-import 'react-phone-input-2/lib/semantic-ui.css';
 import API from '../../../utils/API';
 
 const SignUp = ({ setIsLoginMode, login, closeModal }) => {
