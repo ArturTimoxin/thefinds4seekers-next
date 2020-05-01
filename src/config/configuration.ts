@@ -12,11 +12,9 @@ let mongodbUri = `mongodb://${process.env.MONGO_DB_HOST}:${process.env.MONGO_DB_
 
 if(process.env.MONGO_DB_USERNAME && process.env.MONGO_DB_PASSWORD) {
     mongodbUri = `mongodb://${process.env.MONGO_DB_USERNAME}:${process.env.MONGO_DB_PASSWORD}@${process.env.MONGO_DB_HOST}:${process.env.MONGO_DB_PORT}/${process.env.MONGO_DB_DATABASE}`
-}   
+}
 
-console.log('mongodbUri', mongodbUri)
-
-const uploadsPath = `./${process.env.UPLOADS_DIRRECTORY}`;
+const uploadsPath = `../${process.env.UPLOADS_DIRRECTORY}`;
 
 export {
     mongodbUri,

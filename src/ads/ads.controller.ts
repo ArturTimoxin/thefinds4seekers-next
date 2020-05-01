@@ -11,7 +11,10 @@ import { Category } from './interfaces/category.interface';
 import { Payload } from '../auth/interfaces/payload.interface';
 import { sendMessageToEmail } from '../shared/mail-transporter';
 import { getRegisterAdAndUserText } from '../shared/email-texts.util';
+import { AdPhotosConfig } from '../shared/uploads.constants';
 import { addMonth } from '../shared/add-month.util';
+
+const MAX_COUNT_UPLOAD_PHOTOS = 3;
 @Controller('ads')
 export class AdsController {
 
@@ -37,7 +40,7 @@ export class AdsController {
     }
 
     @Post()
-    @UseInterceptors(FilesInterceptor('photos'))
+    @UseInterceptors(FilesInterceptor('photos', MAX_COUNT_UPLOAD_PHOTOS, AdPhotosConfig))
     async createAd(@Body() registerAdDto: RegisterAdDto, @UploadedFiles() photos) {
 
         const newLocation = await this.adsService.createLocation(registerAdDto.location);
@@ -72,7 +75,7 @@ export class AdsController {
         };
 
         if(photos && photos.length) {
-            adInfo.photos = photos.map(photo => photo.originalname);
+            adInfo.photos = photos.map(photo => photo.filename);
         }
 
         await this.adsService.createAd(adInfo);
@@ -87,7 +90,7 @@ export class AdsController {
     }
 
     @Get('locations/:id')
-    getAdByLocationId(@Param('id') id): Promise<Ad>  {
+    getAdByLocationId(@Param('id') id): Promise<Ad> {
         return this.adsService.getAdByLocationId(id);
     }
 }

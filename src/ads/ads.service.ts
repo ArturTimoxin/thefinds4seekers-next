@@ -29,6 +29,7 @@ export class AdsService {
             throw new BadRequestException('Type error of ad id');
         }
         const ad = await this.adModel.findOne({ _id: adId });
+        ad.photos = ad.photos.map(photoName => `${process.env.APP_URL}/uploads/ads/${photoName}`);
         if(!ad) {
             throw new NotFoundException('Ad does not exist');
         }
@@ -48,6 +49,8 @@ export class AdsService {
         if(!ad) {
             throw new NotFoundException('Ad does not exist');
         }
+        ad.photos = ad.photos.map(photoName => `${process.env.APP_URL}/uploads/ads/${photoName}`);
+
         return ad;
     }
 
