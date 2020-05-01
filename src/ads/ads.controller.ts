@@ -6,12 +6,13 @@ import { AdsService } from './ads.service';
 import { UsersService } from '../users/users.service';
 import { AuthService } from '../auth/auth.service';
 import { Ad } from './interfaces/ad.interface';
+import { AdInfo } from './interfaces/ad-info.interface';
 import { Location } from './interfaces/location.interface';
 import { Category } from './interfaces/category.interface';
 import { Payload } from '../auth/interfaces/payload.interface';
 import { sendMessageToEmail } from '../shared/mail-transporter';
 import { getRegisterAdAndUserText } from '../shared/email-texts.util';
-import { AdPhotosConfig } from '../shared/uploads.constants';
+import { AdPhotosConfig } from '../config/uploads.constants';
 import { addMonth } from '../shared/add-month.util';
 
 const MAX_COUNT_UPLOAD_PHOTOS = 3;
@@ -35,7 +36,7 @@ export class AdsController {
     }
 
     @Get(':id')
-    getAdById(@Param('id') id): Promise<Ad> {
+    getAdById(@Param('id') id): Promise<AdInfo> {
         return this.adsService.findOneAd(id);
     }
 

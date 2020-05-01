@@ -4,7 +4,9 @@ import { Model, Types }  from 'mongoose';
 import { Ad } from './interfaces/ad.interface';
 import { Location } from './interfaces/location.interface';
 import { Category } from './interfaces/category.interface';
+import { User } from '../users/interfaces/user.interface';
 import { LocationDto } from './dto/location.dto';
+import { AdInfo } from './interfaces/ad-info.interface';
 
 @Injectable()
 export class AdsService {
@@ -12,6 +14,7 @@ export class AdsService {
         @InjectModel('Ad') private adModel:Model<Ad>,
         @InjectModel('Location') private locationModel:Model<Location>,
         @InjectModel('Category') private categoryModel:Model<Category>,
+        @InjectModel('User') private userModel: Model<User>,
     ) {}
 
     async createLocation(location: LocationDto): Promise<Location> {
@@ -24,20 +27,45 @@ export class AdsService {
         return await newAd.save();
     }
 
-    async findOneAd(adId): Promise<Ad> {
+    async findOneAd(adId): Promise<AdInfo> {
         if(!Types.ObjectId.isValid(adId)) {
             throw new BadRequestException('Type error of ad id');
         }
         const ad = await this.adModel.findOne({ _id: adId });
-        ad.photos = ad.photos.map(photoName => `${process.env.APP_URL}/uploads/ads/${photoName}`);
         if(!ad) {
             throw new NotFoundException('Ad does not exist');
         }
-        return ad;
+        const { 
+            _id, title, description, locationId, userId, typeId, categoryId, 
+            createdAt, lostOrFoundAt, secretQuestion, secretAnswer, isApproved, actualTo 
+        } = ad;
+        const photosUrls = ad.photos.map(photoName => `${process.env.APP_URL}/uploads/ads/${photoName}`);
+        const location = await this.getLocationById(locationId);
+        const autor = await this.userModel.findById(userId);
+        return { 
+            _id,
+            title,
+            description,
+            photos: photosUrls,
+            typeId,
+            location,
+            categoryId,
+            lostOrFoundAt,
+            user: autor,
+            createdAt,
+            secretQuestion, 
+            secretAnswer, 
+            isApproved,
+            actualTo,
+        };
     }
 
     async getLocations(): Promise<Location[]> {
-        return this.locationModel.find();
+        return await this.locationModel.find();
+    }
+
+    async getLocationById(locationId): Promise<Location> {
+        return await this.locationModel.findById(locationId);
     }
 
     async getAdByLocationId(locationId): Promise<Ad> {
@@ -56,5 +84,19 @@ export class AdsService {
 
     async getCategories(): Promise<Category[]> {
         return this.categoryModel.find();
+    }
+
+    async getNotApprovedAds(): Promise<AdInfo[]> {
+        const adsId = await this.adModel.find({ isApproved: false }, { _id: 1 });
+        if(!adsId.length) {
+            throw new NotFoundException('Ads does not exists');
+        }
+        const notAprovedAdsInfo = [];
+        for(let i = 0; i < adsId.length; i++) {
+            const adInfo = await this.findOneAd(adsId[i]._id);
+            notAprovedAdsInfo.push(adInfo);
+        }
+
+        return notAprovedAdsInfo;
     }
 }

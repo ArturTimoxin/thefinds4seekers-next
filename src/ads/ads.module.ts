@@ -19,5 +19,6 @@ import { UsersModule } from 'src/users/users.module';
   ],
   controllers: [AdsController],
   providers: [AdsService],
+  exports: [AdsService],
 })
 export class AdsModule {}

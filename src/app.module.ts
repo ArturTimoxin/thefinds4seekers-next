@@ -5,15 +5,12 @@ import { ConfigModule } from '@nestjs/config';
 import config, { mongodbUri, uploadsPath } from './config/configuration';
 import { HttpErrorFilter } from './shared/http-error.filter';
 import { MulterModule } from '@nestjs/platform-express';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-
 import { PointsModule } from './points/points.module';
 import { AdsModule } from './ads/ads.module';
-import { UploadsController } from './uploads/uploads.controller';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
-
+import { AdminModule } from './admin/admin.module';
+import { UploadsController } from './uploads/uploads.controller';
 @Module({
   imports: [
     MongooseModule.forRoot(mongodbUri),
@@ -27,10 +24,10 @@ import { UsersModule } from './users/users.module';
     AdsModule,
     UsersModule,
     AuthModule,
+    AdminModule,
   ],
-  controllers: [AppController, UploadsController],
+  controllers: [UploadsController],
   providers: [
-    AppService,
     {
       provide: APP_FILTER,
       useClass: HttpErrorFilter,
