@@ -8,6 +8,15 @@ import API from '../../utils/API';
 import InfoModal from '../../components/common/InfoModal';
 import Router from 'next/router';
 
+const infoModalTextNotRegisterUser = `Your ad will be published after verification by us, we will notify you by email about this.
+Also, you are already registered, your password was generated automaticly and sent to your email.
+You can edit or delete your ad in user accout.
+`;
+
+const infoModalTextRegisteredUser = `Your ad will be published after verification by us, we will notify you by email about this.
+You can edit or delete your ad in user accout.
+`;
+
 const RegisterAd = ({ adsCategories, getAdsCategories, userData, login }) => {
 
     useEffect(() => {
@@ -27,7 +36,7 @@ const RegisterAd = ({ adsCategories, getAdsCategories, userData, login }) => {
     const [errMessage, setErrMessage] = useState('');
 
     const [isLoadSubmitForm, setLoadSubmitForm] = useState(false);
-    const [isShowInfoModal, setIsShowInfoModal] = useState(false);
+    const [infoModal, setInfoModal] = useState(null);
 
     const onSubmitRegisterAdForm = event => {
         if(!typeAd) {
@@ -104,10 +113,10 @@ const RegisterAd = ({ adsCategories, getAdsCategories, userData, login }) => {
                 setLoadSubmitForm(false);
                 login(resp.data.user, resp.data.token);
                 if(!userData) {
-                    setIsShowInfoModal(true);
-                    return;
+                    setInfoModal(infoModalTextNotRegisterUser);
+                } else {
+                    setInfoModal(infoModalTextRegisteredUser);
                 }
-                Router.push('/account/myads');
             })
             .catch(err => {
                 setLoadSubmitForm(false);
@@ -132,7 +141,7 @@ const RegisterAd = ({ adsCategories, getAdsCategories, userData, login }) => {
 
     const onCloseInfoModal = () => {
         Router.push('/account/myads');
-        setIsShowInfoModal(false);
+        setInfoModal(null);
     }
 
     return (
@@ -172,14 +181,9 @@ const RegisterAd = ({ adsCategories, getAdsCategories, userData, login }) => {
                 isLoadSubmitForm={isLoadSubmitForm}
             />
             <InfoModal 
-                isOpen={isShowInfoModal}
                 onClose={onCloseInfoModal}
-                setIsShowInfoModal={setIsShowInfoModal}
                 headerText='Thank you for your Ad!'
-                infoText={`Your ad will be published after verification by us, we will notify you by email about this.
-                Also, you are already registered, your password was generated automaticly and sent to your email.
-                You can edit or delete your ad in user accout.
-                `}
+                infoText={infoModal}
             />
         </div>
     )

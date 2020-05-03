@@ -1,10 +1,10 @@
 import React from 'react'
 import { Button, Header, Icon, Modal } from 'semantic-ui-react'
 
-const InfoModal = ({ isOpen, headerText, infoText, onClose }) => {
+const InfoModal = ({ headerText, infoText, onClose }) => {
     return (
         <Modal
-            open={isOpen}
+            open={!!infoText}
             onClose={onClose}
             basic
             size='small'

@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import GoogleMap from 'google-map-react';
-import { FindPoint, LostPoint } from '../../components/common/Map/Points';
+import Point from '../common/Map/Point';
 import SearchBox from '../../components/common/Map/SearchBox';
 import axios from 'axios';
-import { AD_LOST_TYPE_ID } from './ChooseTypeAd';
 
 const DEFAULT_ZOOM = 1;
 const DEFAULT_CENTER = {
@@ -39,11 +38,6 @@ const RegisterPointMap = ({ point, setPoint, setAddress, typeAd, setErrMessage }
         setErrMessage('');
         setPoint({ lat, lng });
     }
-
-    const getPoint = (lat, lng) => {
-        if(typeAd === AD_LOST_TYPE_ID) return <LostPoint lat={lat} lng={lng} /> 
-        return <FindPoint lat={lat} lng={lng} />
-    }
  
     return (
         <div className='register-point-map-container'>
@@ -60,7 +54,11 @@ const RegisterPointMap = ({ point, setPoint, setAddress, typeAd, setErrMessage }
                 onClick={onClickMap}
             >
                 {point.lat && point.lng && (
-                    getPoint(point.lat, point.lng)
+                    <Point 
+                        typeAd={typeAd}
+                        lat={point.lat} 
+                        lng={point.lng}
+                    />
                 )}
             </GoogleMap>
         </div>

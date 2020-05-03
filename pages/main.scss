@@ -1,0 +1,64 @@
+.main-page-map-wrap {
+    position: relative;
+    width: 100vw;
+    height: 600px;
+    margin-top: -20px;
+}
+
+.wrap-info-window-data {
+    display: flex;
+    align-items: flex-start;
+    .info-window-mini-img {
+        width: 70px;
+        object-fit: contain;
+        margin-right: 5px;
+    }
+    .wrap-text-info-window {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        cursor: pointer;
+        .title-ad-iw {
+            margin: 0;
+        }
+        .subinfo-wrap-iw {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+}
+
+.wrap-new-ads {
+    width: 75%;
+    margin: 50px auto 200px auto;
+}
+
+.new-ads-cards {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.extra-content-card {
+    display: flex;
+    justify-content: space-between;
+}
+
+.new-ad-card {
+    cursor: pointer;
+}
+
+.empty-block-new-ad {
+    width: 290px;
+}
+
+.wrap-show-more-link {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 25px;
+    margin-top: 10px;
+    &:hover {
+        text-decoration: underline;
+    }
+}
