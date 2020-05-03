@@ -5,7 +5,7 @@ import { diskStorage } from 'multer';
 
 export const AdPhotosConfig = {
     storage: diskStorage({
-        destination: `../${process.env.UPLOADS_DIRRECTORY}/ads`,
+        destination: `../${process.env.UPLOADS_DIRRECTORY}/uploads/photos`,
         filename: editFileName,
     }),
     fileFilter: imageFileFilter,

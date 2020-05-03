@@ -1,4 +1,9 @@
-export interface LoginDto {
-    email: string;
-    password: string;
+import { IsString, IsEmail } from "class-validator"; 
+export class LoginDto {
+
+    @IsEmail()
+    readonly email: string;
+
+    @IsString()
+    readonly password: string;
 }

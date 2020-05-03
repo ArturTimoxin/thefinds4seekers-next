@@ -5,11 +5,12 @@ import { RegisterAdDto } from './dto/register-ad.dto';
 import { AdsService } from './ads.service';
 import { UsersService } from '../users/users.service';
 import { AuthService } from '../auth/auth.service';
-import { Ad } from './interfaces/ad.interface';
 import { AdInfo } from './interfaces/ad-info.interface';
-import { Location } from './interfaces/location.interface';
+import { AdMiniInfo } from './interfaces/ad-mini-info.interface';
 import { Category } from './interfaces/category.interface';
 import { Payload } from '../auth/interfaces/payload.interface';
+import { Point } from './interfaces/point.interface';
+import { NewAd } from './interfaces/new-ad.interface';
 import { sendMessageToEmail } from '../shared/mail-transporter';
 import { getRegisterAdAndUserText } from '../shared/email-texts.util';
 import { AdPhotosConfig } from '../config/uploads.constants';
@@ -25,9 +26,20 @@ export class AdsController {
         private readonly authService: AuthService,
     ) {}
 
-    @Get('locations')
-    getAllLocations(): Promise<Location[]>  {
-        return this.adsService.getLocations();
+    
+    @Get('new')
+    getNewAds(): Promise<NewAd[]> {
+        return this.adsService.getNewAds();
+    }
+
+    @Get('points')
+    getAllPoints(): Promise<Point[]>  {
+        return this.adsService.getPoints();
+    }
+
+    @Get('mini-info/:id')
+    getAdMiniInfo(@Param('id') id): Promise<AdMiniInfo> {
+        return this.adsService.getAdMiniInfo(id);
     }
 
     @Get('categories')
@@ -37,7 +49,7 @@ export class AdsController {
 
     @Get(':id')
     getAdById(@Param('id') id): Promise<AdInfo> {
-        return this.adsService.findOneAd(id);
+        return this.adsService.findOneAd(id, true);
     }
 
     @Post()
@@ -88,10 +100,5 @@ export class AdsController {
         const token = await this.authService.signPayload(payload);
 
         return { user, token };
-    }
-
-    @Get('locations/:id')
-    getAdByLocationId(@Param('id') id): Promise<Ad> {
-        return this.adsService.getAdByLocationId(id);
     }
 }

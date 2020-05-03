@@ -14,7 +14,7 @@ if(process.env.MONGO_DB_USERNAME && process.env.MONGO_DB_PASSWORD) {
     mongodbUri = `mongodb://${process.env.MONGO_DB_USERNAME}:${process.env.MONGO_DB_PASSWORD}@${process.env.MONGO_DB_HOST}:${process.env.MONGO_DB_PORT}/${process.env.MONGO_DB_DATABASE}`
 }
 
-const uploadsPath = `../${process.env.UPLOADS_DIRRECTORY}`;
+const uploadsPath = require('path').resolve(`../${process.env.UPLOADS_DIRRECTORY}`);
 
 export {
     mongodbUri,

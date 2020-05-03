@@ -10,7 +10,6 @@ import { AdsModule } from './ads/ads.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { AdminModule } from './admin/admin.module';
-import { UploadsController } from './uploads/uploads.controller';
 @Module({
   imports: [
     MongooseModule.forRoot(mongodbUri),
@@ -26,7 +25,6 @@ import { UploadsController } from './uploads/uploads.controller';
     AuthModule,
     AdminModule,
   ],
-  controllers: [UploadsController],
   providers: [
     {
       provide: APP_FILTER,
