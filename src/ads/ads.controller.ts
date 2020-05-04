@@ -14,7 +14,7 @@ import { NewAd } from './interfaces/new-ad.interface';
 import { sendMessageToEmail } from '../shared/mail-transporter';
 import { getRegisterAdAndUserText } from '../shared/email-texts.util';
 import { AdPhotosConfig } from '../config/uploads.constants';
-import { addMonth } from '../shared/add-month.util';
+import { addMounths } from '../shared/add-months.util';
 
 const MAX_COUNT_UPLOAD_PHOTOS = 3;
 @Controller('ads')
@@ -84,7 +84,7 @@ export class AdsController {
             secretQuestion,
             secretAnswer,
             isApproved: false,
-            actualTo: addMonth(new Date(), 2)
+            actualTo: addMounths(new Date(), 2)
         };
 
         if(photos && photos.length) {

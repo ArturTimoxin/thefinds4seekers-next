@@ -1,4 +1,4 @@
-export function addMonth(date: Date, months: number) : Date {
+export function addMounths(date: Date, months: number) : Date {
     const d = date.getDate();
     date.setMonth(date.getMonth() + +months);
     if (date.getDate() != d) {
