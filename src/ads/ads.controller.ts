@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Param, UseInterceptors, UploadedFiles, Del
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { generatePassword } from '../shared/generate-password.util';
 import { RegisterAdDto } from './dto/register-ad.dto';
+import { FindAdsDto } from './dto/find-ads.dto';
 import { AdsService } from './ads.service';
 import { UsersService } from '../users/users.service';
 import { AuthService } from '../auth/auth.service';
@@ -26,7 +27,11 @@ export class AdsController {
         private readonly authService: AuthService,
     ) {}
 
-    
+    @Get('find')
+    async findAds(@Body() findAdsDto: FindAdsDto) {
+        return await this.adsService.findAds(findAdsDto);
+    }
+
     @Get('new')
     getNewAds(): Promise<NewAd[]> {
         return this.adsService.getNewAds();
@@ -102,7 +107,7 @@ export class AdsController {
         return { user, token };
     }
 
-    // TOOD: NEED WORK IN USER PERMISSION
+    // TOOD: NEED WORK with USER PERMISSION
     @Delete(':id')
     deleteAdById(@Param('id') id) {
         return this.adsService.deleteAd(id);

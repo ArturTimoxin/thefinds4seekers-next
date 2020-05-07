@@ -11,7 +11,9 @@ import { AdMiniInfo } from './interfaces/ad-mini-info.interface';
 import { ApproveAd } from './interfaces/approve-ad.interface';
 import { Point } from './interfaces/point.interface';
 import { NewAd } from './interfaces/new-ad.interface';
+import { FindAds } from './interfaces/find-ads.interface';
 import { AD_LOST_TYPE_ID } from '../shared/constants';
+import { FindAdsDto } from './dto/find-ads.dto';
 @Injectable()
 export class AdsService {
     constructor(
@@ -197,5 +199,38 @@ export class AdsService {
         }
 
         return newAdsData;
+    }
+
+    async findAds({ word, typeId, categoryId, address, noveltyOrder } : FindAdsDto) {
+
+        const requestFindObj: FindAds = {
+            $or: [
+                { title: { $regex: word, $options: "i" } },
+                { description: { $regex: word, $options: "i" } },
+            ],
+            isApproved: true,
+        }
+        
+        if(typeId) {
+            requestFindObj.typeId = typeId;
+        }
+
+        if(categoryId) {
+            requestFindObj.categoryId = categoryId;
+        }
+
+        if(address) {
+            const locationIdsObjs = await this.locationModel.find({ address: { $regex: address, $options: "i" }}, { _id: 1 });
+            const locationIds = locationIdsObjs.map(locationObj => Types.ObjectId(locationObj._id));
+            requestFindObj.locationId = {
+                $in: locationIds
+            }
+        }
+
+        const orderCreatedAt = noveltyOrder ? noveltyOrder : 'desc';
+
+        return await this.adModel
+                        .find(requestFindObj, { _id: 1, title: 1, typeId: 1, createdAt: 1 })
+                        .sort({ createdAt: orderCreatedAt });
     }
 }
