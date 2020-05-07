@@ -108,7 +108,7 @@ const RegisterAdForm = ({
                             {typeAd === AD_FOUND_TYPE_ID && (
                                 <>
                                     <Form.Field>
-                                        <label className='reg-form-label'>Secret question (A person who wants to receive your contact information will have to give this answer. If you leave this field empty your contact details will be available to all users.): </label>
+                                        <label className='reg-form-label'>Secret question (A person who will want to receive your contact information will have to give an answer to this. If you leave this field empty your contact details will be available to all users.): </label>
                                         <Input 
                                             name='secretQuestion'  
                                             placeholder='For ex. - ID number of passport..' 
@@ -123,7 +123,7 @@ const RegisterAdForm = ({
                                         <label 
                                             className='reg-form-label'
                                         >
-                                            Secret answer (If a person answers exactly your question, how did you answer him, he will immediately receive your contact details. If not - you can check his answer in your user account): 
+                                            Secret answer (If a person answers exactly your question, how did you answer him, he will immediately receive your contact details. If not, you can check his answer in your account and give it if you want.): 
                                         </label>
                                         <Input 
                                             disabled={!secretQuestion.length}
@@ -146,6 +146,7 @@ const RegisterAdForm = ({
                                         setErrMessage('');
                                         setLostOrFoundAt(date);
                                     }}
+                                    maxDate={new Date()}
                                 />
                             </Form.Field>
                         </div>

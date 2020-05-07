@@ -4,14 +4,14 @@
 @import './components/common/Footer/index.scss';
 @import './components/common/SendMessageModal/index.scss';
 @import './components/common/Map/index.scss';
-
 @import './components/register-ad/index.scss';
 @import './components/admin/review-ad-block/index.scss';
-
+@import './components/common/TypeAd/index.scss';
 
 // PAGES STYLE IMPORT
 @import './pages/main.scss';
 @import './pages/admin/ads/index.scss';
+@import './pages/ad/index.scss';
 
 * {
     box-sizing: border-box;
@@ -24,4 +24,10 @@ body {
 
 .main-content-container {
     min-height: 90vh;
+}
+
+.photo-modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

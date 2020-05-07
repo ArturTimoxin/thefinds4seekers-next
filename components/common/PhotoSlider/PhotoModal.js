@@ -13,7 +13,10 @@ const PhotoModal = ({
             onClose={onClose}
             basic
         >
-            <Modal.Content image>
+            <Modal.Content 
+                image
+                className='photo-modal'
+            >
                 <Image style={{ maxHeight: '70vh' }} src={photo} alt='photo' />
             </Modal.Content>
         </Modal>

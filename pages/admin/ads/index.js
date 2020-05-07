@@ -12,15 +12,13 @@ const AdminAds = ({
     notApprovedAds,
     isLoadNotApprovedAds,
     adsCategories,
-    getAdsCategories,
+    setModalPhoto
 }) => {
-
-    const [modalPhoto, setModalPhoto] = useState(null);
+    
     const [rejectAdId, setRejectAdId] = useState(null);
 
     useEffect(() => {
         getNotApprovedAds();
-        if(!adsCategories.length) getAdsCategories();
     }, [])
 
     const onApproveAd = (e, { adId, choosedTypeAd, choosedCategory }) => {
@@ -92,10 +90,6 @@ const AdminAds = ({
                     )
                 })}
             </div>
-            <PhotoModal 
-                photo={modalPhoto}
-                onClose={() => setModalPhoto(null)}
-            />
             <SendMessageModal
                 isOpen={!!rejectAdId} 
                 headerText='Rejection reason'
@@ -115,7 +109,7 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = dispatch => ({
     getNotApprovedAds: () => dispatch(actions.admin.getNotApprovedAds()),
-    getAdsCategories: () => dispatch(actions.app.getAdsCategories()),
+    setModalPhoto: (photo) => dispatch(actions.app.setModalPhoto(photo))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminAds);

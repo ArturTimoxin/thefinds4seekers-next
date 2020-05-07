@@ -17,11 +17,7 @@ const infoModalTextRegisteredUser = `Your ad will be published after verificatio
 You can edit or delete your ad in user accout.
 `;
 
-const RegisterAd = ({ adsCategories, getAdsCategories, userData, login }) => {
-
-    useEffect(() => {
-        if(!adsCategories.length) getAdsCategories();
-    }, []);
+const RegisterAd = ({ adsCategories, userData, login }) => {
 
     const [typeAd, setTypeAd] = useState(AD_LOST_TYPE_ID);
     const [title, setTitle] = useState('');
@@ -195,7 +191,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    getAdsCategories: () => dispatch(actions.app.getAdsCategories()),
     login: (userData, token) => dispatch(actions.app.login(userData, token)),
 })
 

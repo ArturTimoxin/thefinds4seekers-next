@@ -1,0 +1,19 @@
+.type-ad-info {
+    color: #ffffff;
+    padding: 10px; 
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1.14285714rem;
+    width: 85px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    &.lost {
+        background-color: #f4bd0d;
+    }
+
+    &.found {
+        background-color: #53b5ac;
+    }
+}

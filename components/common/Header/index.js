@@ -7,6 +7,7 @@ import AuthModal from '../AuthModal';
 import { connect } from "react-redux";
 import { actions } from '../../../store';
 import { getDataFromLS } from '../../../utils/getDataFromLS';
+import PhotoModal from '../../common/PhotoSlider/PhotoModal';
 
 const Header = ({ 
     isOpenAuthModal,
@@ -16,10 +17,14 @@ const Header = ({
     toggleAuthModal,
     isLoginAuthModalMode,
     setAuthModalMode,
+    getAdsCategories,
+    modalPhoto,
+    setModalPhoto,
 }) => {
 
     useEffect(() => {
         login(getDataFromLS('userData'), getDataFromLS('token'));
+        getAdsCategories();
     }, []);
 
     return (
@@ -48,6 +53,10 @@ const Header = ({
                 isLoginMode={isLoginAuthModalMode}
                 setIsLoginMode={setAuthModalMode}
             />
+            <PhotoModal 
+                photo={modalPhoto}
+                onClose={() => setModalPhoto(null)}
+            />
         </>
     )
 }
@@ -56,6 +65,7 @@ const mapStateToProps = store => ({
     isOpenAuthModal: store.app.isOpenAuthModal,
     isLoginAuthModalMode: store.app.isLoginAuthModalMode,
     userData: store.app.userData,
+    modalPhoto: store.app.modalPhoto,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -63,6 +73,8 @@ const mapDispatchToProps = dispatch => ({
     logout: () => dispatch(actions.app.logout()),
     toggleAuthModal: () => dispatch(actions.app.toggleAuthModal()),
     setAuthModalMode: (isLogin) => dispatch(actions.app.setAuthModalMode(isLogin)),
+    getAdsCategories: () => dispatch(actions.app.getAdsCategories()),
+    setModalPhoto: (photo) => dispatch(actions.app.setModalPhoto(photo)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Link from "next/link";
 import AccountIcon from '../../../assets/profile2.png';
 import { Dropdown } from 'semantic-ui-react';
+import { toastSuccess } from '../../../utils/toastrConfig';
 
 const AccountBtn = ({ logout, userData, toggleAuthModal }) => {
 
@@ -21,6 +22,7 @@ const AccountBtn = ({ logout, userData, toggleAuthModal }) => {
 
     const onClickLogout = () => {
         onCloseDropdown();
+        toastSuccess('You have been successfully loggged out')
         logout();
     }
 

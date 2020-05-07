@@ -1,0 +1,1 @@
+export const SET_AD_DATA = "SET_AD_DATA";

@@ -9,7 +9,7 @@ const NewAdCard = ({ adId, photo, title, typeAd, address, createdAt, categoryNam
     const typeName = typeAd === AD_LOST_TYPE_ID ? 'Lost' : 'Found';
 
     return (
-        <Link href={`/ads/${adId}`}>
+        <Link href={`/ad?adId=${adId}`}>
             <Card className='new-ad-card'>
                 <Image src={photo ? photo : DefaultPhoto} wrapped ui={false} />
                 <Card.Content>

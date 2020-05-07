@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Form, Message } from 'semantic-ui-react';
 import API from '../../../utils/API';
+import { toastSuccess } from '../../../utils/toastrConfig';
 
 const Login = ({ setIsLoginMode, login, closeModal }) => {
 
@@ -25,6 +26,7 @@ const Login = ({ setIsLoginMode, login, closeModal }) => {
         .then(resp => {
             login(resp.data.user, resp.data.token);
             setIsLoadingLogin(false);
+            toastSuccess('You have been successfully logged in');
             closeModal();
         })
         .catch(err => {

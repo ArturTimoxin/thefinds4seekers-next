@@ -5,7 +5,6 @@ export const login = (userData, token) => {
 
     localStorage.setItem('userData', JSON.stringify(userData));
     localStorage.setItem('token', JSON.stringify(token));
-
     return dispatch => {
         dispatch({ 
             type: constants.LOGIN,
@@ -15,10 +14,8 @@ export const login = (userData, token) => {
 }
 
 export const logout = () => {
-
     localStorage.removeItem('userData');
     localStorage.removeItem('token');
-    
     return dispatch => {
         dispatch({ type: constants.LOGOUT })
     }
@@ -51,5 +48,12 @@ export const getAdsCategories = () => {
                 const transformedCategories = resp.data.map(category => ({ text: category.category, value: category._id }));
                 dispatch(setAdsCategories(transformedCategories));
             })
+    }
+}
+
+export const setModalPhoto = (modalPhoto) => {
+    return {
+        type: constants.SET_MODAL_PHOTO,
+        payload: { modalPhoto }
     }
 }

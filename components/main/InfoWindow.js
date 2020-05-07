@@ -40,7 +40,7 @@ const InfoWindow = ({ adId }) => {
                         <div className='address-ad-iw'>{info.address}</div>
                         <div className='subinfo-wrap-iw'>
                             <div className='category-ad-iw'>{info.categoryName}</div>
-                            <Link href={`/ads/${adId}`}>Show more ></Link>
+                            <Link href={`/ad?adId=${adId}`}>Show more ></Link>
                         </div>
                     </div>
                 </div>

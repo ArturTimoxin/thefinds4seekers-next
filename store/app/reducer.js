@@ -6,6 +6,7 @@ const initialState = {
     isOpenAuthModal: false,
     isLoginAuthModalMode: true,
     adsCategories: [],
+    modalPhoto: null,
 };
 
 export default (state = initialState, action) => {
@@ -40,6 +41,12 @@ export default (state = initialState, action) => {
         return {
           ...state,
           adsCategories: action.payload.adsCategories,
+        }
+      }
+      case constants.SET_MODAL_PHOTO: {
+        return {
+          ...state,
+          modalPhoto: action.payload.modalPhoto,
         }
       }
       default:
