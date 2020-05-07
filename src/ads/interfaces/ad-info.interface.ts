@@ -11,7 +11,7 @@ export interface AdInfo {
     categoryId: string,
     createdAt: Date,
     lostOrFoundAt?: Date,
-    user: User,
+    user?: User,
     secretQuestion?: string,
     secretAnswer?: string,
     isApproved: boolean,

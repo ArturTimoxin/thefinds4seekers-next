@@ -11,6 +11,7 @@ import { AdMiniInfo } from './interfaces/ad-mini-info.interface';
 import { ApproveAd } from './interfaces/approve-ad.interface';
 import { Point } from './interfaces/point.interface';
 import { NewAd } from './interfaces/new-ad.interface';
+import { AD_LOST_TYPE_ID } from '../shared/constants';
 @Injectable()
 export class AdsService {
     constructor(
@@ -29,8 +30,17 @@ export class AdsService {
         const newAd = new this.adModel(ad);
         return await newAd.save();
     }
+    
+    async getAdById(adId: string): Promise<AdInfo> {
+        const ad = await this.findOneAd(adId, true);
+        const { secretQuestion, secretAnswer, user, ...adProperies } = ad;
+        if(ad.typeId === AD_LOST_TYPE_ID) { 
+            return { user, ...adProperies };
+        }
+        return { ...adProperies, secretQuestion };
+    }
 
-    async findOneAd(adId, needFormatPhotos: boolean): Promise<AdInfo> {
+    async findOneAd(adId: string, needFormatPhotos: boolean): Promise<AdInfo> {
         if(!Types.ObjectId.isValid(adId)) {
             throw new BadRequestException('Type error of ad id');
         }
@@ -92,6 +102,9 @@ export class AdsService {
             throw new BadRequestException('Type error of ad id');
         }
         const adMiniInfo = await this.adModel.findById(adId, { title: 1, photos: 1, locationId: 1, categoryId: 1 });
+        if(!adMiniInfo) {
+            throw new NotFoundException('Ad does not exists');
+        }
         const categoryObj = await this.getCategoryNameById(adMiniInfo.categoryId);
         const locationObj = await this.getLocationById(adMiniInfo.locationId);
         

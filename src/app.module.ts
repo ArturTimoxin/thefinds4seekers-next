@@ -10,6 +10,9 @@ import { AdsModule } from './ads/ads.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { AdminModule } from './admin/admin.module';
+import { AnswersController } from './answers/answers.controller';
+import { AnswersService } from './answers/answers.service';
+import { AnswersModule } from './answers/answers.module';
 @Module({
   imports: [
     MongooseModule.forRoot(mongodbUri),
@@ -24,13 +27,16 @@ import { AdminModule } from './admin/admin.module';
     UsersModule,
     AuthModule,
     AdminModule,
+    AnswersModule,
   ],
   providers: [
     {
       provide: APP_FILTER,
       useClass: HttpErrorFilter,
     },
+    AnswersService,
   ],
+  controllers: [AnswersController],
 })
 
 export class AppModule {}

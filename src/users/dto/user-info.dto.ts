@@ -4,7 +4,7 @@ export class UserInfoDto {
 
     @IsOptional()
     @IsMongoId()
-    readonly user_id?: string;
+    readonly userId?: string;
 
     @IsString()
     readonly firstname: string;

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, UseInterceptors, UploadedFiles } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseInterceptors, UploadedFiles, Delete } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { generatePassword } from '../shared/generate-password.util';
 import { RegisterAdDto } from './dto/register-ad.dto';
@@ -49,7 +49,7 @@ export class AdsController {
 
     @Get(':id')
     getAdById(@Param('id') id): Promise<AdInfo> {
-        return this.adsService.findOneAd(id, true);
+        return this.adsService.getAdById(id);
     }
 
     @Post()
@@ -101,4 +101,10 @@ export class AdsController {
 
         return { user, token };
     }
-}
+
+    // TOOD: NEED WORK IN USER PERMISSION
+    @Delete(':id')
+    deleteAdById(@Param('id') id) {
+        return this.adsService.deleteAd(id);
+    }
+}   

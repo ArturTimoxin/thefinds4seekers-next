@@ -7,18 +7,21 @@ import { CategorySchema } from './schemas/category.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from '../auth/auth.module';
 import { UsersModule } from 'src/users/users.module';
+
+const AdModels = MongooseModule.forFeature([
+  { name: 'Ad', schema: AdSchema },
+  { name: 'Location', schema: LocationSchema },
+  { name: 'Category', schema: CategorySchema },
+]);
+
 @Module({
   imports: [
     AuthModule,
     UsersModule,
-    MongooseModule.forFeature([
-      { name: 'Ad', schema: AdSchema },
-      { name: 'Location', schema: LocationSchema },
-      { name: 'Category', schema: CategorySchema },
-    ]),
+    AdModels
   ],
   controllers: [AdsController],
   providers: [AdsService],
-  exports: [AdsService],
+  exports: [AdsService, AdModels],
 })
 export class AdsModule {}
