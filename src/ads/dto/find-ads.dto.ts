@@ -4,8 +4,11 @@ export class FindAdsDto {
     @IsString()
     word: string;
 
+    @IsString()
+    page: number;
+
     @IsOptional()
-    @IsNumber()
+    @IsString()
     typeId?: number;
 
     @IsOptional()

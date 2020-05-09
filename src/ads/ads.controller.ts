@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, UseInterceptors, UploadedFiles, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseInterceptors, UploadedFiles, Delete, Query } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { generatePassword } from '../shared/generate-password.util';
 import { RegisterAdDto } from './dto/register-ad.dto';
@@ -28,7 +28,7 @@ export class AdsController {
     ) {}
 
     @Get('find')
-    async findAds(@Body() findAdsDto: FindAdsDto) {
+    async findAds(@Query() findAdsDto: FindAdsDto) {
         return await this.adsService.findAds(findAdsDto);
     }
 

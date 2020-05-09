@@ -12,7 +12,7 @@ import { ApproveAd } from './interfaces/approve-ad.interface';
 import { Point } from './interfaces/point.interface';
 import { NewAd } from './interfaces/new-ad.interface';
 import { FindAds } from './interfaces/find-ads.interface';
-import { AD_LOST_TYPE_ID } from '../shared/constants';
+import { AD_LOST_TYPE_ID, FIND_LIMIT } from '../shared/constants';
 import { FindAdsDto } from './dto/find-ads.dto';
 @Injectable()
 export class AdsService {
@@ -46,53 +46,40 @@ export class AdsService {
         if(!Types.ObjectId.isValid(adId)) {
             throw new BadRequestException('Type error of ad id');
         }
-        const ad = await this.adModel.findOne({ _id: adId });
+        const ad = await this.adModel
+                              .findById(adId)
+                              .populate('locationId')
+                              .populate('userId');
         if(!ad) {
             throw new NotFoundException('Ad does not exist');
         }
-        const { 
-            _id, title, description, locationId, userId, typeId, categoryId, 
-            createdAt, lostOrFoundAt, secretQuestion, secretAnswer, isApproved, actualTo 
-        } = ad;
-        let photosUrls = ad.photos;
+        const adObj = ad.toObject();
+        const { locationId, userId, photos, ...properiesAd } = adObj;
+
+        let photosNames = photos;
         if(needFormatPhotos) {
-            photosUrls = ad.photos.map(photoName => `${process.env.APP_URL}/uploads/photos/${photoName}`);
+            photosNames = ad.photos.map(photoName => `${process.env.APP_URL}/uploads/photos/${photoName}`);
         }
-        const location = await this.getLocationById(locationId);
-        const autor = await this.userModel.findById(userId);
+        
         return { 
-            _id,
-            title,
-            description,
-            photos: photosUrls,
-            typeId,
-            location,
-            categoryId,
-            lostOrFoundAt,
-            user: autor,
-            createdAt,
-            secretQuestion, 
-            secretAnswer, 
-            isApproved,
-            actualTo,
+            ...properiesAd,
+            photos: photosNames,
+            location: locationId, // populated
+            user: userId, // populated
         };
     }
 
     async getPoints(): Promise<Point[]> {
-        const locationsData = await this.adModel.find({ isApproved: true }, { _id: 1, locationId: 1, typeId: 1 });
-        const locations = [];
+        const locationsData = await this.adModel
+                                        .find({ isApproved: true }, { _id: 1, typeId: 1 })
+                                        .populate('locationId');
 
-        for(let i = 0; i < locationsData.length; i++) {
-            const locationData = await this.locationModel.findById(locationsData[i].locationId);
-            locations.push({ 
-                typeId: locationsData[i].typeId,
-                lat: locationData.lat,
-                lng: locationData.lng,
-                adId: locationsData[i]._id,
-            })
-        }
-
-        return locations;
+        return locationsData.map(locationData => ({
+            typeId: locationData.typeId,
+            lat: locationData.locationId.lat,
+            lng: locationData.locationId.lng,
+            adId: locationData._id,
+        }));
     }
 
     async getLocationById(locationId): Promise<Location> {
@@ -103,17 +90,17 @@ export class AdsService {
         if(!Types.ObjectId.isValid(adId)) {
             throw new BadRequestException('Type error of ad id');
         }
-        const adMiniInfo = await this.adModel.findById(adId, { title: 1, photos: 1, locationId: 1, categoryId: 1 });
+        const adMiniInfo = await this.adModel
+                                      .findById(adId, { title: 1, photos: 1})
+                                      .populate('locationId categoryId');
         if(!adMiniInfo) {
             throw new NotFoundException('Ad does not exists');
         }
-        const categoryObj = await this.getCategoryNameById(adMiniInfo.categoryId);
-        const locationObj = await this.getLocationById(adMiniInfo.locationId);
-        
+
         const adMiniInfoData: AdMiniInfo = {
             title: adMiniInfo.title,
-            address: locationObj.address,
-            categoryName: categoryObj.category,
+            address: adMiniInfo.locationId.address,
+            categoryName: adMiniInfo.categoryId.category,
         }
 
         if(adMiniInfo.photos[0]) {
@@ -127,32 +114,38 @@ export class AdsService {
         return this.categoryModel.find();
     }
 
-    async getCategoryNameById(categoryId): Promise<Category> {
-        return this.categoryModel.findById(categoryId);
-    }
-
     async getNotApprovedAds(): Promise<AdInfo[]> {
-        const adsId = await this.adModel.find({ isApproved: false }, { _id: 1 });
-        if(!adsId.length) {
+
+        const notAprovedAds = await this.adModel
+                                        .find({ isApproved: false })
+                                        .populate('locationId userId');
+        if(!notAprovedAds.length) {
             throw new NotFoundException('Ads does not exists');
         }
-        const notAprovedAdsInfo = [];
-        for(let i = 0; i < adsId.length; i++) {
-            const adInfo = await this.findOneAd(adsId[i]._id, true);
-            notAprovedAdsInfo.push(adInfo);
-        }
 
-        return notAprovedAdsInfo;
+        return notAprovedAds.map(notApprovedAd => {
+            const notApprovedAdObj = notApprovedAd.toObject();
+            const { locationId, userId, ...notApprovedAdProperties } = notApprovedAdObj;
+            return {                
+                ...notApprovedAdProperties,
+                location: locationId,
+                user: userId,
+                photos: notApprovedAd.photos.map(photoName => `${process.env.APP_URL}/uploads/photos/${photoName}`),
+            }
+        })
     }
 
     async deleteAd(adId) {
         if(!Types.ObjectId.isValid(adId)) {
             throw new BadRequestException('Type error of ad id');
         }
-        const adData = await this.findOneAd(adId, false);
-        await this.locationModel.findByIdAndRemove(adData.location._id);
+        const adData = await this.adModel.findById(adId).populate('userId');
+        await this.locationModel.findByIdAndRemove(adData.locationId);
         await this.adModel.findByIdAndRemove(adData._id);
-        return adData;
+        return { 
+            ...adData.toObject(),
+            user: adData.userId,
+        };
     }
 
     async approveAd(approveAdData: ApproveAd) {
@@ -174,34 +167,28 @@ export class AdsService {
         const newAds = await this.adModel.find({ isApproved: true })
                                          .sort({ createdAt: 'desc' })
                                          .limit(32)
-                                         .select({ title: 1, photos: 1, locationId: 1, categoryId: 1, createdAt: 1, typeId: 1 });
+                                         .select({ title: 1, photos: 1, createdAt: 1, typeId: 1 })
+                                         .populate('locationId', 'address')
+                                         .populate('categoryId', 'category');
         
-        const newAdsData = [];
-
-        for(let i = 0; i < newAds.length; i++) {
-            const categoryObj = await this.getCategoryNameById(newAds[i].categoryId);
-            const locationObj = await this.getLocationById(newAds[i].locationId);
-            const { _id, title, typeId, createdAt, photos } = newAds[i];
+        return newAds.map(newAd => {
+            const { _id, title, typeId, createdAt, photos, locationId, categoryId } = newAd;
             const newAdObj: NewAd = {
                 _id,
                 title,
-                address: locationObj.address,
-                categoryName: categoryObj.category,
+                address: locationId.address,
+                categoryName: categoryId.category,
                 typeId,
                 createdAt,
             };
-
             if(photos.length && photos[0]) {
                 newAdObj.photo = `${process.env.APP_URL}/uploads/photos/${photos[0]}`;
             }
-
-            newAdsData.push(newAdObj);
-        }
-
-        return newAdsData;
+            return newAdObj;
+        });
     }
 
-    async findAds({ word, typeId, categoryId, address, noveltyOrder } : FindAdsDto) {
+    async findAds({ word, typeId, categoryId, address, noveltyOrder, page } : FindAdsDto) {
 
         const requestFindObj: FindAds = {
             $or: [
@@ -212,7 +199,7 @@ export class AdsService {
         }
         
         if(typeId) {
-            requestFindObj.typeId = typeId;
+            requestFindObj.typeId = +typeId;
         }
 
         if(categoryId) {
@@ -229,8 +216,29 @@ export class AdsService {
 
         const orderCreatedAt = noveltyOrder ? noveltyOrder : 'desc';
 
-        return await this.adModel
-                        .find(requestFindObj, { _id: 1, title: 1, typeId: 1, createdAt: 1 })
-                        .sort({ createdAt: orderCreatedAt });
+        const totalFindedDocuments = await this.adModel
+                                           .find(requestFindObj, { _id: 1, title: 1, typeId: 1, createdAt: 1, photos: 1 })
+                                           .count();
+
+        const foundAdsResp = await this.adModel
+                        .find(requestFindObj, { _id: 1, title: 1, typeId: 1, createdAt: 1, photos: 1 })
+                        .populate('locationId', 'address')
+                        .populate('categoryId', 'category')
+                        .sort({ createdAt: orderCreatedAt })
+                        .skip((page - 1) * FIND_LIMIT).limit(FIND_LIMIT);
+
+        const foundAds = foundAdsResp.map(foundAd => ({
+            _id: foundAd._id, 
+            title: foundAd.title, 
+            photo: foundAd.photos.length ? `${process.env.APP_URL}/uploads/photos/${foundAd.photos[0]}` : null,
+            typeId: foundAd.typeId, 
+            createdAt: foundAd.createdAt, 
+            categoryName: foundAd.categoryId.category,
+            address: foundAd.locationId.address,
+        }));
+        
+        const totalPages = Math.ceil(totalFindedDocuments / FIND_LIMIT);
+
+        return { foundAds, totalPages }
     }
 }
