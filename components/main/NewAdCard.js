@@ -11,7 +11,7 @@ const NewAdCard = ({ adId, photo, title, typeAd, address, createdAt, categoryNam
     return (
         <Link href={`/ad?adId=${adId}`}>
             <Card className='new-ad-card'>
-                <Image src={photo ? photo : DefaultPhoto} wrapped ui={false} />
+                    <img className='new-ad-photo' src={photo ? photo : DefaultPhoto} alt={title} />
                 <Card.Content>
                 <Card.Header>{title}</Card.Header>
                 <Card.Meta>

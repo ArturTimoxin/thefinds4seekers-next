@@ -29,6 +29,15 @@ const Footer = ({
             </Link>
             <div className='footer-links'>
                 <div className='wrap-text-links'>
+                    <Link href='/list?typeId=1'>
+                        <a className='footer-link'>Missing</a>
+                    </Link>
+                    <Link href='/list?typeId=2'>
+                        <a className='footer-link'>Finds</a>
+                    </Link>
+                    <Link href='/register-ad'>
+                        <a className='footer-link'>Register Ad</a>
+                    </Link>
                     {!userData ? (
                         <>
                             <a 
@@ -57,15 +66,6 @@ const Footer = ({
                             </Link>
                         </>
                     )}
-                    <Link href='/register-ad'>
-                        <a className='footer-link'>Register Ad</a>
-                    </Link>
-                    <Link href='/list'>
-                        <a className='footer-link'>Finds</a>
-                    </Link>
-                    <Link href='/list'>
-                        <a className='footer-link'>Missing</a>
-                    </Link>
                 </div>
                 <div className='social-links'>
                     <a href='https://www.facebook.com/'>

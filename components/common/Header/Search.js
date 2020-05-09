@@ -1,18 +1,31 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Link from "next/link";
 import SearchIcon from '../../../assets/find.png';
 import AddIcon from '../../../assets/add.png'
+import Router from 'next/router';
 
-const Search = ({ value, onChange, onSearch }) => {
+const Search = () => {
+
+    const [searchWord, setSearchWord] = useState('');
+    const onSearch = e => {
+        e.preventDefault();
+        Router.push(`/list?word=${searchWord}`);
+    }
+
     return (
         <div className='search-add-wrap'>
             <span className='search-wrap'>
-                <input 
-                    value={value}
-                    className='head-search-input'
-                    onChange={onChange}
-                    placeholder='Search...'
-                />
+                <form 
+                    onSubmit={onSearch}
+                    className='header-search-form'
+                >
+                    <input 
+                        value={searchWord}
+                        className='head-search-input'
+                        onChange={e => setSearchWord(e.target.value)}
+                        placeholder='Search...'
+                    />
+                </form>
                 <img 
                     onClick={onSearch}
                     className='search-icon' 
@@ -39,5 +52,5 @@ const Search = ({ value, onChange, onSearch }) => {
         </div>
     )
 }
-
+  
 export default Search;

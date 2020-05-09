@@ -12,14 +12,20 @@ const ChooseTypeAd = ({ typeAd = 1, setTypeAd }) => {
         >
             <Button
                 color={typeAd === AD_LOST_TYPE_ID ? 'yellow' : null}
-                onClick={() => setTypeAd && setTypeAd(AD_LOST_TYPE_ID)}
+                onClick={e => { 
+                    e.preventDefault();
+                    setTypeAd && setTypeAd(AD_LOST_TYPE_ID);
+                }}
             >
                 LOST
             </Button>
             <Button.Or />
             <Button
                 color={typeAd === AD_FOUND_TYPE_ID ? 'teal' : null}
-                onClick={() => setTypeAd && setTypeAd(AD_FOUND_TYPE_ID)}
+                onClick={e => {
+                    e.preventDefault();
+                    setTypeAd && setTypeAd(AD_FOUND_TYPE_ID);
+                }}
             >
                 FOUND
             </Button>

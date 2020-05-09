@@ -201,7 +201,7 @@ const AnswerQuestionModal = ({
                     <Button 
                         loading={isLoadSend}
                         type='submit' 
-                        color='teal' 
+                        color='teal'
                         fluid
                     >
                         Submit

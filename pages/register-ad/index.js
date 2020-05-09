@@ -151,7 +151,6 @@ const RegisterAd = ({ adsCategories, userData, login }) => {
             />
             <RegisterAdForm 
                 onSubmitForm={onSubmitRegisterAdForm}
-                isAutotizedUser={false}
                 userData={userData}
                 title={title}
                 setTitle={setTitle}

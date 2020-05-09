@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import ReviewAdBlock from '../../../components/admin/review-ad-block';
-import PhotoModal from '../../../components/common/PhotoSlider/PhotoModal';
+import ReviewAdBlock from '../../../components/admin/ReviewAdBlock';
 import SendMessageModal from '../../../components/common/SendMessageModal';
 import { connect } from "react-redux";
 import { actions } from '../../../store';

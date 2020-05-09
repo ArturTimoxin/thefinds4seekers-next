@@ -13,8 +13,8 @@ export const setAdData = (adData) => {
 export const getAdData = (adId) => {
     return async dispatch => {
         await API.get(`/ads/${adId}`)
-            .then(resp => {
-                dispatch(setAdData(resp.data));
-            })
+                 .then(resp => {
+                     dispatch(setAdData(resp.data));
+                 })
     }
 }

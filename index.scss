@@ -5,13 +5,15 @@
 @import './components/common/SendMessageModal/index.scss';
 @import './components/common/Map/index.scss';
 @import './components/register-ad/index.scss';
-@import './components/admin/review-ad-block/index.scss';
+@import './components/admin/index.scss';
 @import './components/common/TypeAd/index.scss';
+@import './components/list/index.scss';
 
 // PAGES STYLE IMPORT
 @import './pages/main.scss';
 @import './pages/admin/ads/index.scss';
 @import './pages/ad/index.scss';
+@import './pages/list/index.scss';
 
 * {
     box-sizing: border-box;

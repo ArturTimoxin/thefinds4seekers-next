@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import ChoosePhotos from '../../register-ad/ChooseTypeAd';
+import ChoosePhotos from '../register-ad/ChooseTypeAd';
 import { Form, TextArea, Dropdown, Input, Button } from 'semantic-ui-react';
-import PhotoSlider from '../../common/PhotoSlider';
+import PhotoSlider from '../common/PhotoSlider';
 
 const ReviewAdBlock = ({
     adId,

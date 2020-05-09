@@ -49,6 +49,13 @@
     cursor: pointer;
 }
 
+.new-ad-photo {
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+}
+
+
 .empty-block-new-ad {
     width: 290px;
 }

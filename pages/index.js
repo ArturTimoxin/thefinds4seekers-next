@@ -37,7 +37,7 @@ const HomePage = ({ getAdsPoints, adsPoints, newAds }) => {
                     <div className='empty-block-new-ad' />
                 </div>
                 <div className='wrap-show-more-link'>
-                    <Link href='/list' passHref className='show-more-link'> Show more > </Link>
+                    <Link href='/list' passHref><a className='show-more-link'>Show more ></a></Link>
                 </div>
             </div>
         </div>
