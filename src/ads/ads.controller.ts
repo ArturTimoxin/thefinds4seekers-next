@@ -1,4 +1,7 @@
-import { Controller, Get, Post, Body, Param, UseInterceptors, UploadedFiles, Delete, Query } from '@nestjs/common';
+import { 
+    HttpException, HttpStatus, Controller, Get, Post, Body, Param, 
+    UseInterceptors, UploadedFiles, Delete, Query, UseGuards, 
+} from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { generatePassword } from '../shared/generate-password.util';
 import { RegisterAdDto } from './dto/register-ad.dto';
@@ -16,6 +19,9 @@ import { sendMessageToEmail } from '../shared/mail-transporter';
 import { getRegisterAdAndUserText } from '../shared/email-texts.util';
 import { AdPhotosConfig } from '../config/uploads.constants';
 import { addMounths } from '../shared/add-months.util';
+import { AuthGuard } from '@nestjs/passport';
+import { User as UserDocument } from '../users/interfaces/user.interface';
+import { User } from '../shared/user.decorator';
 
 const MAX_COUNT_UPLOAD_PHOTOS = 3;
 @Controller('ads')
@@ -40,6 +46,12 @@ export class AdsController {
     @Get('points')
     getAllPoints(): Promise<Point[]>  {
         return this.adsService.getPoints();
+    }
+
+    @Get('user')
+    @UseGuards(AuthGuard('jwt'))
+    getUserAds(@User() user: UserDocument) {
+        return this.adsService.getUserAds(user._id);
     }
 
     @Get('mini-info/:id')
@@ -107,9 +119,13 @@ export class AdsController {
         return { user, token };
     }
 
-    // TOOD: NEED WORK with USER PERMISSION
     @Delete(':id')
-    deleteAdById(@Param('id') id) {
+    @UseGuards(AuthGuard('jwt'))
+    async deleteAdById(@Param('id') id, @User() user: UserDocument) {
+        const isOwner = await this.adsService.isUserOwner(id, user._id);
+        if(!isOwner) {
+            throw new HttpException('Permission denied', HttpStatus.FORBIDDEN);
+        }
         return this.adsService.deleteAd(id);
     }
 }   

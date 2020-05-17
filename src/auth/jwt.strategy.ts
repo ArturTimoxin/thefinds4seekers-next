@@ -21,6 +21,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       );
     }
 
+    // set user data to @Request obj
     return done(null, user, payload.iat);
   }
 }

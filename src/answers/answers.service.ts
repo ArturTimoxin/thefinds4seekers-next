@@ -23,4 +23,11 @@ export class AnswersService {
         const ad = await this.adModel.findById(adId, { secretAnswer: 1 });
         return ad.secretAnswer;
     }
+
+    async removeAdAnswers(adId) {
+        if(!Types.ObjectId.isValid(adId)) {
+            throw new BadRequestException('Type error of answerId id');
+        }
+        return await this.answerModel.deleteMany({ adId });
+    }
 }

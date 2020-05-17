@@ -1,11 +1,11 @@
-import { Injectable, NotFoundException, BadRequestException  } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { ModuleRef } from '@nestjs/core';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types }  from 'mongoose';
 import { Ad } from './interfaces/ad.interface';
 import { LocationDto } from './dto/location.dto';
 import { Location } from './interfaces/location.interface';
 import { Category } from './interfaces/category.interface';
-import { User } from '../users/interfaces/user.interface';
 import { AdInfo } from './interfaces/ad-info.interface';
 import { AdMiniInfo } from './interfaces/ad-mini-info.interface';
 import { ApproveAd } from './interfaces/approve-ad.interface';
@@ -14,14 +14,23 @@ import { NewAd } from './interfaces/new-ad.interface';
 import { FindAds } from './interfaces/find-ads.interface';
 import { AD_LOST_TYPE_ID, FIND_LIMIT } from '../shared/constants';
 import { FindAdsDto } from './dto/find-ads.dto';
+import { AnswersService } from '../answers/answers.service';
+import fs = require('fs');
 @Injectable()
 export class AdsService {
+
+    private answersService: AnswersService;
+
     constructor(
         @InjectModel('Ad') private adModel:Model<Ad>,
         @InjectModel('Location') private locationModel:Model<Location>,
         @InjectModel('Category') private categoryModel:Model<Category>,
-        @InjectModel('User') private userModel: Model<User>,
+        private moduleRef: ModuleRef,
     ) {}
+
+    onModuleInit() {
+        this.answersService = this.moduleRef.get(AnswersService, { strict: false });
+    }
 
     async createLocation(location: LocationDto): Promise<Location> {
         const newLocation = new this.locationModel(location);
@@ -140,8 +149,17 @@ export class AdsService {
             throw new BadRequestException('Type error of ad id');
         }
         const adData = await this.adModel.findById(adId).populate('userId');
+        if(!adData) {
+            throw new NotFoundException('Ad does not exist');
+        }
         await this.locationModel.findByIdAndRemove(adData.locationId);
+        await this.answersService.removeAdAnswers(adData._id);
         await this.adModel.findByIdAndRemove(adData._id);
+        if(adData.photos.length) {
+            adData.photos.forEach(photoName => {
+                fs.unlinkSync(`../${process.env.UPLOADS_DIRRECTORY}/uploads/photos/${photoName}`);
+            })
+        }
         return { 
             ...adData.toObject(),
             user: adData.userId,
@@ -240,5 +258,36 @@ export class AdsService {
         const totalPages = Math.ceil(totalFindedDocuments / FIND_LIMIT);
 
         return { foundAds, totalPages }
+    }
+
+    async getUserAds(userId) {
+        if(!Types.ObjectId.isValid(userId)) {
+            throw new BadRequestException('Type error of ad id');
+        }
+        
+        const userAds = await this.adModel
+                                    .find({ userId }, { _id: 1, title: 1, isApproved: 1, typeId: 1, createdAt: 1, photos: 1, actualTo: 1 })
+                                    .sort({ createdAt: 'desc' })
+                                    .populate('locationId', 'address');
+
+        return userAds.map(ad => ({
+            id: ad._id,
+            title: ad.title,
+            photo: ad.photos.length ? `${process.env.APP_URL}/uploads/photos/${ad.photos[0]}` : null,
+            typeId: ad.typeId,
+            address: ad.locationId.address,
+            createdAt: ad.createdAt,
+            actualTo: ad.actualTo,
+            isApproved: ad.isApproved,
+        }));
+    }
+
+    async isUserOwner(adId, userId) {
+        if(!Types.ObjectId.isValid(adId) || !Types.ObjectId.isValid(userId)) {
+            throw new BadRequestException('Type error of id');
+        }
+
+        const adInfo = await this.adModel.findById(adId, { userId });
+        return adInfo.userId.equals(userId);
     }
 }

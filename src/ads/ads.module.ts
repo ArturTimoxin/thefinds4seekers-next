@@ -6,7 +6,7 @@ import { LocationSchema } from './schemas/location.schema'
 import { CategorySchema } from './schemas/category.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from '../auth/auth.module';
-import { UsersModule } from 'src/users/users.module';
+import { UsersModule } from '../users/users.module';
 
 const AdModels = MongooseModule.forFeature([
   { name: 'Ad', schema: AdSchema },
