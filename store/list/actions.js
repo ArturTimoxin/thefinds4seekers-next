@@ -86,7 +86,7 @@ export const changeNoveltyOrderFindQuery = noveltyOrder => {
 
 export const changeTypeAdFindQuery= typeId => {
     return {
-        type: constants.CHNAGE_TYPE_AD_SEARCH_QUERY,
+        type: constants.CHANGE_TYPE_AD_SEARCH_QUERY,
         payload: {
             typeId
         }

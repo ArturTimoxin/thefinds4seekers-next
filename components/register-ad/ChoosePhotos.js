@@ -3,9 +3,7 @@ import { Form } from 'semantic-ui-react'
 import { AD_LOST_TYPE_ID } from './ChooseTypeAd';
 import PlusIcon from '../../assets/plus.png';
 
-const ChoosePhotos = ({ typeAd }) => {
-
-    // TODO: need refactor
+const ChoosePhotos = ({ typeAd, photos = [] }) => {
     const [mainPhoto, setMainPhoto] = useState(null);
     const [subPhotoOne, setSubPhotoOne] = useState(null);
     const [subPhotoTwo, setSubPhotoTwo] = useState(null);
@@ -22,16 +20,43 @@ const ChoosePhotos = ({ typeAd }) => {
         }
     }
 
+    const getPhotoImg = (photoData, defaultPhoto = PlusIcon) => {
+
+        if(defaultPhoto !== PlusIcon && !photoData) {
+            return (
+                <img 
+                    src={defaultPhoto} 
+                    alt='plus' 
+                    className='photo-preview'
+                />
+            )
+        }
+
+        if(!photoData) {
+            return (
+                <img 
+                    src={defaultPhoto} 
+                    alt='plus' 
+                    className='plus-icon'
+                />
+            )
+        }
+
+        return (
+            <img src={photoData} className='photo-preview' />
+        )
+    }
+
     return (
         <Form.Field>
             <label className='choose-photos-label'>
                 {`Choose photos of your ${typeAd === AD_LOST_TYPE_ID ? 'lost' : 'found'}:`}
                 <div className='choose-photos-input'>
                     <label htmlFor="main-photo" className='main-photo-input choose-photos-label'>
-                        {mainPhoto ? (
-                            <img src={mainPhoto} className='photo-preview' />
+                        {photos[0] ? (
+                            getPhotoImg(mainPhoto, photos[0])
                         ) : (
-                            <img src={PlusIcon} alt='plus' className='plus-icon' />
+                            getPhotoImg(mainPhoto)
                         )}
                     </label>
                     <input 
@@ -44,10 +69,10 @@ const ChoosePhotos = ({ typeAd }) => {
                     />
                     <div className='sub-photos-inputs-wrap'>
                         <label htmlFor='sub-photo-one' className='sub-photo-input choose-photos-label'>
-                            {subPhotoOne ? (
-                                <img src={subPhotoOne} className='photo-preview' />
+                            {photos[1] ? (
+                                getPhotoImg(subPhotoOne, photos[1])
                             ) : (
-                                <img src={PlusIcon} alt='plus' className='plus-icon' />
+                                getPhotoImg(subPhotoOne)
                             )}
                         </label>
                         <input 
@@ -59,10 +84,10 @@ const ChoosePhotos = ({ typeAd }) => {
                             onChange={onChangePhoto}
                         />
                         <label htmlFor='sub-photo-two' className='sub-photo-input choose-photos-label'>
-                            {subPhotoTwo ? (
-                                <img src={subPhotoTwo} className='photo-preview' />
+                            {photos[2] ? (
+                                getPhotoImg(subPhotoTwo, photos[2])
                             ) : (
-                                <img src={PlusIcon} alt='plus' className='plus-icon' />
+                                getPhotoImg(subPhotoTwo)
                             )}
                         </label>
                         <input 

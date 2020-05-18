@@ -6,12 +6,14 @@ import * as main from './main/actions';
 import * as admin from './admin/actions';
 import * as ad from './ad/actions';
 import * as list from './list/actions';
+import * as account from './account/actions';
 
 import appReducer from './app/reducer';
 import mainReducer from './main/reducer';
 import adminReducer from './admin/reducer';
 import adReducer from './ad/reducer';
 import listReducer from './list/reducer';
+import accountReducer from './account/reducer';
 
 export const actions = {
     app,
@@ -19,6 +21,7 @@ export const actions = {
     admin,
     ad,
     list,
+    account,
 };
 
 const rootReducer = combineReducers({
@@ -27,6 +30,7 @@ const rootReducer = combineReducers({
     admin: adminReducer,
     ad: adReducer,
     list: listReducer,
+    account: accountReducer,
 });
 
 const middleware = [thunk];

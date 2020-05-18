@@ -22,15 +22,18 @@ const RegisterAdForm = ({
     typeAd, 
     setTypeAd,
     categoryOptions,
+    categoryId,
     onChooseCategory,
     lostOrFoundAt,
     setLostOrFoundAt,
-    userInfo,
+    userInfo = null,
     onChangeUserInfo,
     onChangePhoneNumber,
     errMessage,
     setErrMessage,
     isLoadSubmitForm,
+    titleAdForm = 'Registration Ad',
+    photos = [],
 }) => {
 
     const textTypeAd = typeAd === AD_LOST_TYPE_ID ? 'lost' : 'found';
@@ -43,7 +46,7 @@ const RegisterAdForm = ({
                 >
                     <div className='reg-form-main-column-wrap'>
                         <div className='wrap-head-reg-form'>
-                            <h1 className='title-register-ad-form'>Registration Ad</h1>
+                            <h1 className='title-register-ad-form'>{titleAdForm}</h1>
                             <span className='choose-type-text'> 
                                 Choose the type of ad: <RedStar />
                             </span>
@@ -83,6 +86,7 @@ const RegisterAdForm = ({
                                 <Dropdown 
                                     selection
                                     required
+                                    value={categoryId}
                                     options={categoryOptions}
                                     placeholder='Choose category...'
                                     onChange={(e, { value }) => {
@@ -126,7 +130,7 @@ const RegisterAdForm = ({
                                             Secret answer (If a person answers exactly your question, how did you answer him, he will immediately receive your contact details. If not, you can check his answer in your account and give it if you want.): 
                                         </label>
                                         <Input 
-                                            disabled={!secretQuestion.length}
+                                            disabled={!secretQuestion || !secretQuestion.length}
                                             value={secretAnswer}
                                             onChange={e => {
                                                 setErrMessage('');
@@ -154,6 +158,7 @@ const RegisterAdForm = ({
                     <div className='reg-form-subcolumn-wrap'>
                         <ChoosePhotos 
                             typeAd={typeAd}
+                            photos={photos}
                         />
                         {!userData && (
                             <div className='wrap-user-info-fields'>
@@ -165,7 +170,7 @@ const RegisterAdForm = ({
                                         name='firstname'
                                         fluid
                                         placeholder='Firstname'
-                                        value={userInfo.firstname}
+                                        value={userInfo ? userInfo.firstname : ''}
                                         onChange={onChangeUserInfo}
                                         required
                                     />
@@ -178,7 +183,7 @@ const RegisterAdForm = ({
                                         name='lastname'
                                         fluid
                                         placeholder='Your lastname'
-                                        value={userInfo.lastName}
+                                        value={userInfo ? userInfo.lastName : ''}
                                         onChange={onChangeUserInfo}
                                         required
                                     />
@@ -190,7 +195,7 @@ const RegisterAdForm = ({
                                             name: 'phone',
                                             required: true,
                                         }}
-                                        value={userInfo.phone}
+                                        value={userInfo ? userInfo.phone : ''}
                                         preferredCountries={['us', 'ua']}
                                         onChange={onChangePhoneNumber}
                                         inputClass='phone-input'
@@ -207,7 +212,7 @@ const RegisterAdForm = ({
                                         fluid
                                         placeholder='Your E-mail'
                                         type='email'
-                                        value={userInfo.email}
+                                        value={userInfo ? userInfo.email : ''}
                                         onChange={onChangeUserInfo}
                                         required
                                     />

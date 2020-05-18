@@ -55,7 +55,7 @@ const Footer = ({
                         </>
                     ) : (
                         <>
-                            <Link href='/account/myads'>
+                            <Link href='/account'>
                                 <a className='footer-link'>Your Ads</a>
                             </Link>
                             <Link href='/account/feedback'>

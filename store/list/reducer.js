@@ -51,7 +51,7 @@ export default (state = initialState, action) => {
             noveltyOrder: action.payload.noveltyOrder,
         }
       }
-      case constants.CHNAGE_TYPE_AD_SEARCH_QUERY: {
+      case constants.CHANGE_TYPE_AD_SEARCH_QUERY: {
         return {
             ...state,
             typeId: action.payload.typeId,

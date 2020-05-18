@@ -26,7 +26,6 @@ class TheFinds4Seekers extends App {
             </Provider>
         );
     }
-
 }
 
 export default withRedux(makeStore)(TheFinds4Seekers);

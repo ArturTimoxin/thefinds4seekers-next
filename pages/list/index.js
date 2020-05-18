@@ -3,7 +3,7 @@ import { actions } from '../../store';
 import { connect } from "react-redux";
 import SearchBlock from '../../components/list/SearchBlock';
 import FoundAds from '../../components/list/FoundAds';
-import { Pagination } from 'semantic-ui-react';
+import { Pagination, Message } from 'semantic-ui-react';
 
 const List = ({ foundAds, isLoadResults, totalPages, currentPage, changeCurrentPage }) => {
 
@@ -11,6 +11,9 @@ const List = ({ foundAds, isLoadResults, totalPages, currentPage, changeCurrentP
         <div className='wrap-list-ads'>
             <h1 className='title-search-ad'>Search Ads</h1>
             <SearchBlock />
+            {!foundAds.length && (
+                <Message className='not-fond-ads-message' size='huge'>Ads not found. Please, change your search query.</Message>
+            )}
             <FoundAds 
                 foundAds={foundAds}
                 isLoad={isLoadResults}

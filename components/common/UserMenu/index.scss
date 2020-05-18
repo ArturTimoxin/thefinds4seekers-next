@@ -1,0 +1,18 @@
+.account-page-wrap {
+    display: flex;
+    width: 75%;
+    margin: 50px auto 200px auto;
+}
+
+.account-content-wrap {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    width: 100%;
+}
+
+.user-menu {
+    height: 500px;
+    position: sticky;
+    top: 10px;
+}

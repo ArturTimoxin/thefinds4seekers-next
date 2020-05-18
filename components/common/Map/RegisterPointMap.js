@@ -1,19 +1,20 @@
 import React, { useState } from 'react'
 import GoogleMap from 'google-map-react';
-import Point from '../common/Map/Point';
-import SearchBox from '../../components/common/Map/SearchBox';
+import Point from './Point';
+import SearchBox from './SearchBox';
 import axios from 'axios';
 
-const DEFAULT_ZOOM = 1;
-const DEFAULT_CENTER = {
-    lat: 47.948206,
-    lng: 21.832424
-}
+const RegisterPointMap = ({ 
+    point, setPoint, setAddress, typeAd, setErrMessage,
+    defaultZoom = 1, defaultCenter,
+}) => {
 
-const RegisterPointMap = ({ point, setPoint, setAddress, typeAd, setErrMessage }) => {
+    if(!defaultCenter) {
+        defaultCenter = { lat: 47.948206, lng: 21.832424 };
+    }
 
-    const [currentZoom, setCurrenZoom] = useState(DEFAULT_ZOOM);
-    const [currentCenter, setCurrentCenter] = useState(DEFAULT_CENTER);
+    const [currentZoom, setCurrenZoom] = useState(defaultZoom);
+    const [currentCenter, setCurrentCenter] = useState(defaultCenter);
 
     const onClickMap = ({ lat, lng }) => {
         setErrMessage('');
@@ -38,7 +39,7 @@ const RegisterPointMap = ({ point, setPoint, setAddress, typeAd, setErrMessage }
         setErrMessage('');
         setPoint({ lat, lng });
     }
- 
+
     return (
         <div className='register-point-map-container'>
             <SearchBox 
@@ -47,8 +48,8 @@ const RegisterPointMap = ({ point, setPoint, setAddress, typeAd, setErrMessage }
             />
             <GoogleMap
                 bootstrapURLKeys={{ key: process.env.GOOGLE_MAPS_API_KEY }}
-                defaultCenter={DEFAULT_CENTER}
-                defaultZoom={DEFAULT_ZOOM}
+                defaultCenter={defaultCenter}
+                defaultZoom={defaultZoom}
                 center={currentCenter}
                 zoom={currentZoom}
                 onClick={onClickMap}

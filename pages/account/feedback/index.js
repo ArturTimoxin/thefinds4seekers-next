@@ -1,10 +1,12 @@
-import React from 'react'
+import React from 'react';
+import UserMenu from '../../../components/common/UserMenu';
+import { Header } from 'semantic-ui-react';
 
 const Feedback = () => {
     return (
-        <div>
-            Feedback Page
-        </div>
+        <UserMenu>
+            <Header as='h1'>Feedback on your ads</Header>
+        </UserMenu>
     )
 }
 
