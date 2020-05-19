@@ -37,6 +37,10 @@ export class AdsService {
         return await newLocation.save();
     }
 
+    async updateLocation(locationId, location): Promise<Location> {
+        return await this.locationModel.findByIdAndUpdate(locationId, location, { new: true });
+    }
+
     async createAd(ad: any): Promise<Ad> {
         const newAd = new this.adModel(ad);
         return await newAd.save();
@@ -289,5 +293,13 @@ export class AdsService {
 
         const adInfo = await this.adModel.findById(adId, { userId });
         return adInfo.userId.equals(userId);
+    }
+
+    async updateAd(adId, adData) {
+        if(!Types.ObjectId.isValid(adId)) {
+            throw new BadRequestException('Type error of ad id');
+        }
+
+        return await this.adModel.findByIdAndUpdate(adId, adData, { new: true });
     }
 }

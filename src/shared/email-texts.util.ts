@@ -61,7 +61,7 @@ thefinds4seekers team
 
 export function sendAnswerToAdAutor(adTitle: string, adSecretQuestion: string, answer: string, user, isCorrect): string {
     return `
-Your ad "${adTitle}" got feedback from user!
+Your ad "${adTitle}" got answer from user!
 
 Your ad of your found got answer on the secret question.
 

@@ -1,8 +1,8 @@
 import { IsString, IsDateString, ValidateNested, IsOptional, IsDefined, ValidateIf, IsMongoId } from 'class-validator';
 import { Type } from 'class-transformer';
 import { LocationDto } from './location.dto';
-import { UserInfoDto } from '../../users/dto/user-info.dto'; 
-export class RegisterAdDto {
+
+export class UpdateAdDto {
     @IsString()
     readonly title!: string;
 
@@ -21,11 +21,6 @@ export class RegisterAdDto {
     @ValidateNested()
     @Type(() => LocationDto)
     readonly location!: LocationDto;
-
-    @IsDefined()
-    @ValidateNested()
-    @Type(() => UserInfoDto)
-    readonly user!: UserInfoDto;
 
     @IsOptional()
     @IsDateString()

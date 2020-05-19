@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards } from '@nestjs/common';
 import { AnswersService } from './answers.service';
 import { UsersService } from '../users/users.service';
 import { AnswerDto } from './dto/answer.dto';
@@ -10,7 +10,9 @@ import isSameStrings from '../shared/is-same-strings.util';
 import { AD_LOST_TYPE_ID } from '../shared/constants';
 import { Payload } from '../auth/interfaces/payload.interface';
 import { AuthService } from 'src/auth/auth.service';
-
+import { User as UserDocument } from '../users/interfaces/user.interface';
+import { User } from '../shared/user.decorator';
+import { AuthGuard } from '@nestjs/passport';
 @Controller('answers')
 export class AnswersController {
     constructor(
@@ -66,5 +68,11 @@ export class AnswersController {
         });
 
         return resp;
+    }
+
+    @Get()
+    @UseGuards(AuthGuard('jwt'))
+    async getAnswersOnAds(@User() user: UserDocument) {
+        
     }
 }

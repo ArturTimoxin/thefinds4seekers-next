@@ -1,10 +1,11 @@
 import { 
     HttpException, HttpStatus, Controller, Get, Post, Body, Param, 
-    UseInterceptors, UploadedFiles, Delete, Query, UseGuards, 
+    UseInterceptors, UploadedFiles, Delete, Query, UseGuards, Put, 
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { generatePassword } from '../shared/generate-password.util';
 import { RegisterAdDto } from './dto/register-ad.dto';
+import { UpdateAdDto } from './dto/update-ad.dto';
 import { FindAdsDto } from './dto/find-ads.dto';
 import { AdsService } from './ads.service';
 import { UsersService } from '../users/users.service';
@@ -22,6 +23,7 @@ import { addMounths } from '../shared/add-months.util';
 import { AuthGuard } from '@nestjs/passport';
 import { User as UserDocument } from '../users/interfaces/user.interface';
 import { User } from '../shared/user.decorator';
+import fs = require('fs');
 
 const MAX_COUNT_UPLOAD_PHOTOS = 3;
 @Controller('ads')
@@ -127,5 +129,54 @@ export class AdsController {
             throw new HttpException('Permission denied', HttpStatus.FORBIDDEN);
         }
         return this.adsService.deleteAd(id);
+    }
+
+    @Get('/edit-info/:id')
+    @UseGuards(AuthGuard('jwt'))
+    async getEditAdData(@Param('id') id, @User() user: UserDocument) {
+        const isOwner = await this.adsService.isUserOwner(id, user._id);
+        if(!isOwner) {
+            throw new HttpException('Permission denied', HttpStatus.FORBIDDEN);
+        }
+        return this.adsService.findOneAd(id, true);
+    }
+
+    @Put('/:id')
+    @UseGuards(AuthGuard('jwt'))
+    @UseInterceptors(FilesInterceptor('photos', MAX_COUNT_UPLOAD_PHOTOS, AdPhotosConfig))
+    async updateAd(@Param('id') id, @User() user: UserDocument, @Body() updateAdDto: UpdateAdDto, @UploadedFiles() photos) {
+        const isOwner = await this.adsService.isUserOwner(id, user._id);
+        if(!isOwner) {
+            throw new HttpException('Permission denied', HttpStatus.FORBIDDEN);
+        }
+
+        const { title, description, typeId, categoryId, lostOrFoundAt, secretQuestion, secretAnswer } = updateAdDto;
+        
+        const oldAd = await this.adsService.findOneAd(id, false);
+
+        await this.adsService.updateLocation(oldAd.location._id, updateAdDto.location);
+        
+        const adInfo = {
+            title,
+            description,
+            photos: oldAd.photos,
+            typeId: +typeId,
+            categoryId,
+            lostOrFoundAt,
+            secretQuestion,
+            secretAnswer,
+            isApproved: false,
+        };
+
+        if(photos && photos.length) {
+            if(oldAd.photos.length) {
+                oldAd.photos.forEach(photoName => {
+                    fs.unlinkSync(`../${process.env.UPLOADS_DIRRECTORY}/uploads/photos/${photoName}`);
+                })
+            }
+            adInfo.photos = photos.map(photo => photo.filename);
+        }
+
+        return await this.adsService.updateAd(id, adInfo);
     }
 }   
