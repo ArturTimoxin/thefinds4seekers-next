@@ -34,6 +34,7 @@ const RegisterAdForm = ({
     isLoadSubmitForm,
     titleAdForm = 'Registration Ad',
     photos = [],
+    subInfoText,
 }) => {
 
     const textTypeAd = typeAd === AD_LOST_TYPE_ID ? 'lost' : 'found';
@@ -231,6 +232,11 @@ const RegisterAdForm = ({
                             >
                                 Submit
                             </Button>
+                            {!!subInfoText && (
+                                <div className='subinfo-text-form'>
+                                    {subInfoText}
+                                </div>
+                            )}
                         </div>
                     </div>
                 </Form>

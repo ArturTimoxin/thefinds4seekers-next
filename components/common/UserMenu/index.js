@@ -28,11 +28,11 @@ const UserMenu = ({ children }) => {
                 </Menu.Item>
 
                 <Menu.Item
-                    name='/feedback'
+                    name='/answers'
                     onClick={onClickItem}
-                    active={router.pathname.includes('account/feedback')}
+                    active={router.pathname.includes('account/answers')}
                 >
-                    Feedback
+                    Answers
                 </Menu.Item>
 
                 <Menu.Item

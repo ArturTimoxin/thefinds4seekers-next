@@ -58,8 +58,8 @@ const Footer = ({
                             <Link href='/account'>
                                 <a className='footer-link'>Your Ads</a>
                             </Link>
-                            <Link href='/account/feedback'>
-                                <a className='footer-link'>Feedback on your ads</a>
+                            <Link href='/account/answers'>
+                                <a className='footer-link'>Answers on your ads</a>
                             </Link>
                             <Link href='/account/commentaries'>
                                 <a className='footer-link'>Your Commentaries on Ads</a>

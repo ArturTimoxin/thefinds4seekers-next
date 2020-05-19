@@ -46,6 +46,7 @@ export const getEditAdData = (adId) => {
         dispatch(toggleIsLoadEditAdData());
         API.get(`/ads/edit-info/${adId}`)
             .then(resp => {
+                console.log('resp edit data', resp)
                 dispatch(toggleIsLoadEditAdData());
                 dispatch(setEditAdData(resp.data));
             })
@@ -163,9 +164,9 @@ export const editAdSetInfoModalMessage = infoModalMessageEditAd => {
 export const onSumbitEditAd = event => {
     return (dispatch, getState) => {
         const { 
-            typeId, title, description, location: { lat, lng, address }, 
-            photos, lostOrFoundAt, categoryId, secretQuestion, secretAnswer, 
-         } = getState().account.editAdData;
+            _id, typeId, title, description, location: { lat, lng, address }, 
+            lostOrFoundAt, categoryId, secretQuestion, secretAnswer, 
+        } = getState().account.editAdData;
 
         if(!typeId) {
             dispatch(editAdSetErrorMessage('Type ad is undefined'));
@@ -226,6 +227,13 @@ export const onSumbitEditAd = event => {
         }
 
         dispatch(editAdToggleLoadSubmitEditAd());
-
+        API.put(`/ads/${_id}`, adFormData)
+            .then(resp => {
+                dispatch(editAdSetInfoModalMessage('An ad will be published in our service when the content is verified. You will be notified by email as soon as the announcement is published.'))
+                dispatch(editAdToggleLoadSubmitEditAd());
+            })
+            .catch(err => {
+                dispatch(editAdToggleLoadSubmitEditAd());
+            })
     }
 }

@@ -46,3 +46,20 @@
 .actual-to-text {
     text-align: center;
 }
+
+.answer-wrap {
+    margin-bottom: 20px !important;
+}
+
+.answer-content-wrap {
+    padding: 0 !important;
+    margin: 5px 0 0 10px !important;
+}
+
+.delete-answer-icon {
+    cursor: pointer;
+    color: #999999;
+    &:hover {
+        color: #000000;
+    }
+}

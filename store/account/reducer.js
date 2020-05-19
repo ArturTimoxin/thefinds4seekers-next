@@ -1,7 +1,7 @@
 import * as constants from './actionTypes';
 
 export const initialEditAdData = {
-    id: null,
+    _id: null,
     typeId: 1,
     title: '',
     description: '',

@@ -44,8 +44,8 @@ const AccountBtn = ({ logout, userData, toggleAuthModal }) => {
                     <Link href='/account'>
                         <Dropdown.Item text='My Ads' onClick={onCloseDropdown} />
                     </Link>
-                    <Link href='/account/feedback'>
-                        <Dropdown.Item text='Feedback' onClick={onCloseDropdown} />
+                    <Link href='/account/answers'>
+                        <Dropdown.Item text='Answers' onClick={onCloseDropdown} />
                     </Link>
                     <Link href='/account/commentaries'>
                         <Dropdown.Item text='My commentaries' onClick={onCloseDropdown} />
