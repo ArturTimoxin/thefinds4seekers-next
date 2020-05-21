@@ -19,6 +19,15 @@
     display: flex;
     justify-content: space-between;
     width: 85%;
+    @media screen and (max-width: 1650px) {
+        width: 80%;
+    }
+    @media screen and (max-width: 1150px) {
+        width: 75%;
+    }
+    @media screen and (max-width: 920px) {
+        width: 70%;
+    }
 }
 
 .wrap-contols-1 {
@@ -39,7 +48,13 @@
 }
 
 .dropdown-search {
-    width: 45%;
+    min-width: 45% !important;
+    &.first {
+        margin-right: 20px;
+    }
+    @media screen and (max-width: 790px) {
+        font-size: 13px;
+    }
 }
 
 .title-ad-item-list {

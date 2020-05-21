@@ -47,6 +47,7 @@
 
 .new-ad-card {
     cursor: pointer;
+    margin: 10px !important;
 }
 
 .new-ad-photo {
@@ -67,5 +68,16 @@
     margin-top: 10px;
     &:hover {
         text-decoration: underline;
+    }
+}
+
+.new-ads-title {
+    margin-left: 10px;
+}
+
+.photo-slider-wrap {
+    width: 300px !important;
+    @media screen and (max-width: 960px) {
+        width: 200px !important;
     }
 }

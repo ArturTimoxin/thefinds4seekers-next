@@ -8,7 +8,7 @@ const PhotoSlider = ({ photos = [], setModalPhoto }) => (
       naturalSlideWidth={1}
       naturalSlideHeight={1}
       totalSlides={photos.length}
-      style={{ width: "300px" }}
+      className='photo-slider-wrap'
     >
       <Slider>
         {photos.map((photoUrl, i) => (

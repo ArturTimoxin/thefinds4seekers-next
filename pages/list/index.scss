@@ -1,6 +1,9 @@
 .wrap-list-ads {
     width: 70%;
     margin: 70px auto 250px auto;
+    @media screen and (max-width: 1366px) {
+        width: 80%;
+    }
 }
 
 .wrap-pagination-ad-list {

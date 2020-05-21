@@ -18,7 +18,7 @@ const HomePage = ({ getAdsPoints, adsPoints, newAds }) => {
                 adsPoints={adsPoints}
             />
             <div className='wrap-new-ads'>
-                <h2>NEW ADS</h2>
+                <h2 className='new-ads-title'>NEW ADS</h2>
                 <div className='new-ads-cards'>
                     {newAds.map(newAd => (
                         <NewAdCard 

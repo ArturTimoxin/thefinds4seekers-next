@@ -49,8 +49,8 @@ const SearchBlock = ({
                       selection
                       clearable
                       defaultValue={typeId}
-                      placeholder='Choose ad type'
-                      className='dropdown-search'
+                      placeholder='Type'
+                      className='dropdown-search first'
                       options={[
                         { text: 'Lost', value: AD_LOST_TYPE_ID },
                         { text: 'Found', value: AD_FOUND_TYPE_ID }
@@ -63,7 +63,7 @@ const SearchBlock = ({
                       selection
                       clearable
                       defaultValue={categoryId}
-                      placeholder='Choose category'
+                      placeholder='Category'
                       className='dropdown-search'
                       options={adsCategories}
                       onChange={(e, { value }) => {

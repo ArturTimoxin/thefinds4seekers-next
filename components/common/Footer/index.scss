@@ -3,7 +3,8 @@
     min-height: 300px;
     background-color: #464947;
     color: #ffffff;
-    padding: 30px 10%;
+    padding: 30px 5%;
+    
 }
 
 .footer-logo {
@@ -12,17 +13,28 @@
     margin-top: -140px;
     width: 250px;
     cursor: pointer;
+    @media screen and (max-width: 1200px) {
+        width: 150px; 
+        margin-top: -85px;
+    }
 }
 
 .wrap-text-links {
     display: flex;
     flex-direction: column;
+    min-width: 310px;
 }
 
 .footer-links {
     padding: 0px 20%;
     display: flex;
     justify-content: space-between;
+    @media screen and (max-width: 1450px) {
+        padding: 0px 23%;
+    }
+    @media screen and (max-width: 1200px) {
+        padding: 0px 9% 0px 25%;
+    }
 }
 
 .footer-link {
