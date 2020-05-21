@@ -27,6 +27,9 @@ const initialState = {
     editAdErrorMessage: '',
     isLoadSubmitEditAd: false,
     infoModalMessageEditAd: null,
+    // answers
+    answers: [],
+    isLoadAnswers: false,
 };
 
 export default (state = initialState, action) => {
@@ -165,7 +168,21 @@ export default (state = initialState, action) => {
                 infoModalMessageEditAd: action.payload.infoModalMessageEditAd,
             }
         }
-        // 
+        // answers
+        case constants.TOGGLE_IS_LOAD_EDIT_AD_DATA: {
+            return {
+                ...state,
+                isLoadAnswers: !state.isLoadAnswers,
+            }
+        }
+        case constants.SET_ANSWERS: {
+            return {
+                ...state,
+                answers: action.payload.answers,
+                isLoadAnswers: false,
+            }
+        }
+
         default:
             return state;
     }

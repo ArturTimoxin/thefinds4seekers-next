@@ -46,7 +46,6 @@ export const getEditAdData = (adId) => {
         dispatch(toggleIsLoadEditAdData());
         API.get(`/ads/edit-info/${adId}`)
             .then(resp => {
-                console.log('resp edit data', resp)
                 dispatch(toggleIsLoadEditAdData());
                 dispatch(setEditAdData(resp.data));
             })
@@ -192,7 +191,7 @@ export const onSumbitEditAd = event => {
             dispatch(editAdSetErrorMessage(`Enter address where you ${typeAd === AD_FOUND_TYPE_ID ? 'found' : 'lost'} it`));
             return;
         }
-        if(secretQuestion.length && !secretAnswer.length) {
+        if(secretQuestion && !secretAnswer.length) {
             dispatch(editAdSetErrorMessage(`Enter secret answer on your secret question`));
             return;
         }
@@ -211,7 +210,7 @@ export const onSumbitEditAd = event => {
         if(lostOrFoundAt) {
             adFormData.append('lostOrFoundAt', new Date(lostOrFoundAt).toISOString());
         }
-        if(secretQuestion.length && secretAnswer.length) {
+        if(secretQuestion && secretQuestion.length && secretAnswer && secretAnswer.length) {
             adFormData.append('secretQuestion', secretQuestion);
             adFormData.append('secretAnswer', secretAnswer);
         }
@@ -234,6 +233,36 @@ export const onSumbitEditAd = event => {
             })
             .catch(err => {
                 dispatch(editAdToggleLoadSubmitEditAd());
+            })
+    }
+}
+
+// answers
+
+export const toggleIsLoadEditData = () => {
+    return {
+        type: constants.TOGGLE_IS_LOAD_EDIT_AD_DATA,
+    }
+}
+
+export const setAnswers = answers => {
+    return {
+        type: constants.SET_ANSWERS,
+        payload: {
+            answers
+        }
+    }
+}
+
+export const getAnswers = () => {
+    return dispatch => {
+        dispatch(toggleIsLoadEditData());
+        API.get('/answers')
+            .then(resp => {
+                dispatch(setAnswers(resp.data));
+            })
+            .catch(err => {
+                dispatch(toggleIsLoadEditData());
             })
     }
 }

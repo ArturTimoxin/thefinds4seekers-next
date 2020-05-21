@@ -12,6 +12,8 @@ const AnswersAccordeonBlock = ({
     index,
     answers,
     onClick,
+    setIdAnswerForDelete,
+    onSendContactData,
 }) => {
     return (
         <>
@@ -22,12 +24,14 @@ const AnswersAccordeonBlock = ({
             >
                 <Icon name='dropdown' />
                 {`${secretQuestion} `}
-                (<Link href={`/ad?ad?adId=${adId}`}>{titleAd}</Link>)
+                (<Link href={`/ad?adId=${adId}`}>{titleAd}</Link>)
             </Accordion.Title>
             <Accordion.Content active={isActive}>
             <Feed>
                 {answers.map((answer, i) => (
                     <UserAnswerBlock 
+                        key={answer.createdAt + answer._id}
+                        id={answer._id}
                         firstname={answer.answerAutorUserData.firstname}
                         lastname={answer.answerAutorUserData.lastname}
                         phone={answer.answerAutorUserData.phone}
@@ -35,6 +39,8 @@ const AnswersAccordeonBlock = ({
                         createdAt={getFullDateInfo(answer.createdAt)}
                         answerText={answer.answerText}
                         isShowDivider={i + 1 !== answers.length}
+                        setIdAnswerForDelete={setIdAnswerForDelete}
+                        onSendContactData={onSendContactData}
                     />
                 ))}
             </Feed>

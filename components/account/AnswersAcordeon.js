@@ -1,82 +1,26 @@
 import React, { useState } from 'react'
-import { Accordion } from 'semantic-ui-react'
+import { Accordion, Confirm } from 'semantic-ui-react'
 import AnswersAccordeonBlock from './AnswersAccordeonBlock';
+import InfoModal from '../common/InfoModal';
+import API from '../../utils/API';
 
-const mock = [
-    {
-        adId: 'skdkasdn',
-        titleAd: 'sjdfjkdsf',
-        secretQuestion: 'What?',
-        answers: [
-            {
-                createdAt: new Date().toISOString(),
-                answerText: 'Test answer 1',
-                answerAutorUserData: {
-                    _id: 'asdasd',
-                    firstname: 'Lolos',
-                    lastname: 'figos',
-                    phone: '+380963227922',
-                    email: 'lolos@mail.com'
-                }
-            },
-            {
-                createdAt: new Date().toISOString(),
-                answerText: 'Test answer 2',
-                answerAutorUserData: {
-                    _id: 'asdasd',
-                    firstname: 'Losasaas',
-                    lastname: 'figosassadasd',
-                    phone: '+2109388123',
-                    email: 'lolos2@mail.com'
-                }
-            },
-            {
-                createdAt: new Date().toISOString(),
-                answerText: 'Test answer 3',
-                answerAutorUserData: {
-                    _id: 'asdasd',
-                    firstname: 'cdsdfsdf',
-                    lastname: 'sdfdsf',
-                    phone: '+324234234234',
-                    email: 'molos@slf.com'
-                }
-            }
-        ]
-    },
-    {
-        adId: 'ssss',
-        titleAd: 'asdasd',
-        secretQuestion: 'Why?',
-        answers: [
-            {
-                createdAt: new Date().toISOString(),
-                answerText: 'Test answer 4',
-                answerAutorUserData: {
-                    _id: 'asdasd',
-                    firstname: 'Lolos',
-                    lastname: 'figos',
-                    phone: '+380963227922',
-                    email: 'lolos@mail.com'
-                }
-            },
-            {
-                createdAt: new Date().toISOString(),
-                answerText: 'Test answer 5',
-                answerAutorUserData: {
-                    _id: 'asdasd',
-                    firstname: 'Losasaas',
-                    lastname: 'figosassadasd',
-                    phone: '+2109388123',
-                    email: 'lolos2@mail.com'
-                }
-            },
-        ]
-    },
-]
+const AnswersAcordeon = ({ answers, isLoad, getAnswers }) => {
 
-const AnswersAcordeon = () => {
+    if(isLoad) {
+        return (
+            <>
+                <LoadingPlaceholder />
+                <LoadingPlaceholder />
+                <LoadingPlaceholder />
+                <LoadingPlaceholder />
+                <LoadingPlaceholder />
+            </>
+        )
+    }
 
-    const [activeIndexes, setActiveIndexes] = useState([]);
+    const [activeIndexes, setActiveIndexes] = useState([0, 1, 2, 3]);
+    const [idAnswerForDelete, setIdAnswerForDelete] = useState(null);
+    const [textInfoModal, setTextInfoModal] = useState('');
 
     const handleClick = (e, titleProps) => {
         const { index } = titleProps;
@@ -91,23 +35,56 @@ const AnswersAcordeon = () => {
         setActiveIndexes(newActiveIndexes);
     }
 
+    const onDeleteAnswer = () => {
+        API.delete(`/answers/${idAnswerForDelete}`)
+            .then(resp => {
+                getAnswers();
+                setIdAnswerForDelete(null);
+            })
+    }
+
+    const onSendContactData = (answerId) => {
+        API.get(`/answers/${answerId}/send-contact-data`)
+           .then(resp => {
+                setTextInfoModal('We are very glad that we helped you, and you helped someone! We hope that you will be able to contact this person!');
+           })
+    }
+
     return (
-        <Accordion 
-            styled
-            fluid
-        >
-            {mock.map((questionAnswerData, i) => (
-                <AnswersAccordeonBlock 
-                    adId={questionAnswerData.adId}
-                    titleAd={questionAnswerData.titleAd}
-                    secretQuestion={questionAnswerData.secretQuestion}
-                    isActive={activeIndexes.includes(i)}
-                    index={i}
-                    answers={questionAnswerData.answers}
-                    onClick={handleClick}
-                />
-            ))}
-      </Accordion>
+        <>
+            <Accordion 
+                styled
+                fluid
+            >
+                {answers.map((questionAnswerData, i) => (
+                    <AnswersAccordeonBlock
+                        key={questionAnswerData.titleAd + questionAnswerData.adId} 
+                        adId={questionAnswerData.adId}
+                        titleAd={questionAnswerData.titleAd}
+                        secretQuestion={questionAnswerData.secretQuestion}
+                        isActive={activeIndexes.includes(i)}
+                        index={i}
+                        answers={questionAnswerData.answers}
+                        onClick={handleClick}
+                        setIdAnswerForDelete={setIdAnswerForDelete}
+                        onSendContactData={onSendContactData}
+                    />
+                ))}
+            </Accordion>
+            <Confirm 
+                open={!!idAnswerForDelete}
+                onCancel={() => setIdAnswerForDelete(null)}
+                onConfirm={onDeleteAnswer}
+                size='mini'
+                header='Are you sure that you want to delete this answer?'
+                content='In the future you will not be able to restore it.'
+            />
+            <InfoModal 
+                onClose={() => setTextInfoModal('')}
+                headerText='Your contact information was sent to the mail to the author of the answer'
+                infoText={textInfoModal}
+            />
+        </>
     )
 }
 

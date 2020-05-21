@@ -59,7 +59,7 @@ const RegisterAd = ({ adsCategories, userData, login }) => {
             setErrMessage(`Enter address where you ${typeAd === AD_FOUND_TYPE_ID ? 'found' : 'lost'} it`);
             return;
         }
-        if(secretQuestion.length && !secretAnswer.length) {
+        if(secretQuestion && !secretAnswer.length) {
             setErrMessage(`Enter secret answer on your secret question`);
             return;
         }
@@ -88,7 +88,7 @@ const RegisterAd = ({ adsCategories, userData, login }) => {
         if(lostOrFoundAt) {
             adFormData.append('lostOrFoundAt', lostOrFoundAt.toISOString());
         }
-        if(secretQuestion.length && secretAnswer.length) {
+        if(secretQuestion && secretQuestion.length && secretAnswer && secretAnswer.length) {
             adFormData.append('secretQuestion', secretQuestion);
             adFormData.append('secretAnswer', secretAnswer);
         }

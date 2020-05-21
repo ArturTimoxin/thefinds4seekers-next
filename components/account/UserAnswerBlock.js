@@ -1,8 +1,9 @@
 import React from 'react'
 import UserIcon from '../../assets/profile2.png';
-import { Feed, Icon, Divider } from 'semantic-ui-react'
+import { Feed, Icon, Divider, Button } from 'semantic-ui-react'
 
 const UserAnswerBlock = ({
+    id,
     firstname,
     lastname,
     createdAt,
@@ -10,6 +11,8 @@ const UserAnswerBlock = ({
     phone,
     email,
     isShowDivider = true,
+    setIdAnswerForDelete,
+    onSendContactData,
 }) => {
     return (
         <>
@@ -38,10 +41,20 @@ const UserAnswerBlock = ({
                         </Feed.Meta>
                     </div>
                 </Feed.Content>
-                <Icon 
-                    className='delete-answer-icon'
-                    name='delete' 
-                />
+                <div
+                    className='answer-actions-wrap'
+                >
+                    <Icon 
+                        className='delete-answer-icon'
+                        name='delete'
+                        onClick={() => setIdAnswerForDelete(id)} 
+                    />
+                    <Button
+                        onClick={() => onSendContactData(id)}
+                    >
+                        Send your contact details on autor email
+                    </Button>
+                </div>
             </Feed.Event>
             {isShowDivider && (
                 <Divider />
