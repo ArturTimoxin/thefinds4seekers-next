@@ -178,5 +178,5 @@ export class AdsController {
         }
 
         return await this.adsService.updateAd(id, adInfo);
-    }
+    }    
 }   

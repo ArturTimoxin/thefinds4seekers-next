@@ -84,3 +84,23 @@ Best regards,
 thefinds4seekers team
 `;
 }
+
+export function sendUserContactDataToAutorAnswer(adTitle: string, adId: string, answerText, userData) {
+    return `
+Our congratulations!
+
+Your answer: "${answerText}" to the ad about find "${adTitle}" - ${process.env.APP_URL}/ad?adId=${adId} is right!
+
+Creator of the ad sent you his contact details:
+
+Name: ${userData.firstname} ${userData.lastname}
+Email: ${userData.email}
+Phone: ${userData.phone}
+
+We are very glad that we helped you find each other!
+We hope you share information about us :)
+
+Best regards,
+thefinds4seekers team
+`;
+}

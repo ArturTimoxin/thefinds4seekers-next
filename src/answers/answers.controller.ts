@@ -1,10 +1,10 @@
-import { Controller, Post, Body, Get, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, Delete, Param, HttpException, HttpStatus, } from '@nestjs/common';
 import { AnswersService } from './answers.service';
 import { UsersService } from '../users/users.service';
 import { AnswerDto } from './dto/answer.dto';
 import { generatePassword } from '../shared/generate-password.util';
 import { sendMessageToEmail } from '../shared/mail-transporter';
-import { getSuccessfulSaveAnswerText, getSuccessfulSaveAnswerAndRegisterText, sendAnswerToAdAutor } from '../shared/email-texts.util';
+import { getSuccessfulSaveAnswerText, getSuccessfulSaveAnswerAndRegisterText, sendAnswerToAdAutor, sendUserContactDataToAutorAnswer } from '../shared/email-texts.util';
 import { AdsService } from '../ads/ads.service';
 import isSameStrings from '../shared/is-same-strings.util';
 import { AD_LOST_TYPE_ID } from '../shared/constants';
@@ -73,6 +73,29 @@ export class AnswersController {
     @Get()
     @UseGuards(AuthGuard('jwt'))
     async getAnswersOnAds(@User() user: UserDocument) {
-        
+        return await this.answersService.getAnswers(user._id);
+    }
+
+    @Delete('/:id')
+    @UseGuards(AuthGuard('jwt'))
+    async deleteAnswer(@Param('id') id, @User() user: UserDocument) {
+        const answerData = await this.answersService.getAnswerData(id);
+        const isOwner = this.adsService.isUserOwner(answerData.adId._id, user._id);
+        if(!isOwner) {
+            throw new HttpException('Permission denied', HttpStatus.FORBIDDEN);
+        }
+        return this.answersService.deleteAnswer(id);
+    }
+
+
+    @Get('/:id/send-contact-data')
+    @UseGuards(AuthGuard('jwt'))
+    async sendContactData(@Param('id') id, @User() user: UserDocument) {
+        const answerData = await this.answersService.getAnswerData(id);
+        sendMessageToEmail({
+            email: answerData.answerAutorUserId.email,
+            message: sendUserContactDataToAutorAnswer(answerData.adId.title, answerData.adId._id, answerData.answerText, user)
+        })
+        return answerData;
     }
 }

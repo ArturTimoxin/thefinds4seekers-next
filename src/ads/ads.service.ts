@@ -52,7 +52,11 @@ export class AdsService {
         if(ad.typeId === AD_LOST_TYPE_ID) { 
             return { user, ...adProperies };
         }
-        return { ...adProperies, secretQuestion };
+        if(!secretQuestion) {
+            return {  user, ...adProperies };
+        }
+
+        return { secretQuestion, ...adProperies };
     }
 
     async findOneAd(adId: string, needFormatPhotos: boolean): Promise<AdInfo> {

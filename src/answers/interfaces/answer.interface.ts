@@ -1,8 +1,8 @@
 import { Document } from 'mongoose';
 
 export interface Answer extends Document {
-    adId: string;
-    answerAutorUserId: string;
+    adId: any;
+    answerAutorUserId: any;
     answerText: string;
     createdAt: Date;
 }

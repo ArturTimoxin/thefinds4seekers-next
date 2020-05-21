@@ -13,4 +13,5 @@ export interface Ad extends Document {
     secretAnswer?: string,
     isApproved: boolean,
     actualTo: Date,
+    answers?: any[],
 }
