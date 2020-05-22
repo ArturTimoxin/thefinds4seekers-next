@@ -1,6 +1,6 @@
 import React from 'react'
 import UserAnswerBlock from './UserAnswerBlock';
-import { Feed, Accordion, Icon } from 'semantic-ui-react';
+import { Feed, Accordion, Icon, Message } from 'semantic-ui-react';
 import Link from 'next/link';
 import { getFullDateInfo } from '../../utils/getFormatedDate';
 
@@ -28,6 +28,9 @@ const AnswersAccordeonBlock = ({
             </Accordion.Title>
             <Accordion.Content active={isActive}>
             <Feed>
+                {!answers.length && (
+                    <Message size='medium'>Answers not found.</Message>
+                )}
                 {answers.map((answer, i) => (
                     <UserAnswerBlock 
                         key={answer.createdAt + answer._id}

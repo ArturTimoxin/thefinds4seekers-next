@@ -102,6 +102,7 @@ const EditAd = ({
                 isLoadSubmitForm={isLoadSubmitEditAd}
                 photos={photos}
                 subInfoText={'* After the edit ad, we will check it. For a while, the ad will not be available for viewing other users of our service.'}
+                point={{ lat, lng }}
             />
             <InfoModal 
                 onClose={onCloseInfoModal}

@@ -26,14 +26,14 @@
 }
 
 .footer-links {
-    padding: 0px 20%;
+    padding: 0px 10% 0px 20%;
     display: flex;
     justify-content: space-between;
     @media screen and (max-width: 1450px) {
-        padding: 0px 23%;
+        padding: 0px 10% 0px 23%;
     }
     @media screen and (max-width: 1200px) {
-        padding: 0px 9% 0px 25%;
+        padding: 0px 4% 0px 25%;
     }
 }
 
@@ -45,7 +45,14 @@
     cursor: pointer;
 }
 
-.social-links {
+.contact-links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.wrap-social-logo {
     display: flex;
     align-items: flex-start;
 }
@@ -53,4 +60,24 @@
 .social-logo {
     width: 70px;
     margin-left: 10px;
+}
+
+.company-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-bottom: -8px;
+}
+
+.company-email {
+    font-size: 20px;
+    color: #ffffff;
+    margin-bottom: 10px;    
+}
+
+.company-subinfo {
+    text-align: end;
+    @media screen and (max-width: 1020px) {
+        font-size: 13px;
+    }
 }

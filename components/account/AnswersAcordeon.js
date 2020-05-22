@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Accordion, Confirm } from 'semantic-ui-react'
+import { Accordion, Confirm, Message } from 'semantic-ui-react'
 import AnswersAccordeonBlock from './AnswersAccordeonBlock';
 import InfoModal from '../common/InfoModal';
 import API from '../../utils/API';
@@ -50,11 +50,20 @@ const AnswersAcordeon = ({ answers, isLoad, getAnswers }) => {
            })
     }
 
+    if(!answers.length) {
+        return (
+            <Message size='huge'>
+                Secret questions not found.
+            </Message>
+        )
+    }
+
     return (
         <>
             <Accordion 
                 styled
                 fluid
+                className='answers-acordion'
             >
                 {answers.map((questionAnswerData, i) => (
                     <AnswersAccordeonBlock

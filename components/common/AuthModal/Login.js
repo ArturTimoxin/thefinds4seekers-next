@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Form, Message } from 'semantic-ui-react';
 import API from '../../../utils/API';
 import { toastSuccess } from '../../../utils/toastrConfig';
+import Router from 'next/router';
 
 const Login = ({ setIsLoginMode, login, closeModal }) => {
 
@@ -28,6 +29,7 @@ const Login = ({ setIsLoginMode, login, closeModal }) => {
             setIsLoadingLogin(false);
             toastSuccess('You have been successfully logged in');
             closeModal();
+            Router.push(`/account`);
         })
         .catch(err => {
             setErrMessage(err.response.data.message);

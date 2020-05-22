@@ -61,20 +61,34 @@ const Footer = ({
                             <Link href='/account/answers'>
                                 <a className='footer-link'>Answers on your ads</a>
                             </Link>
-                            <Link href='/account/commentaries'>
+                            {/* <Link href='/account/commentaries'>
                                 <a className='footer-link'>Your Commentaries on Ads</a>
-                            </Link>
+                            </Link> */}
                         </>
                     )}
                 </div>
-                <div className='social-links'>
-                    <a href='https://www.facebook.com/'>
-                        <img className='social-logo' src={FbLogo} alt='fb-logo'/>
-                    </a>
-                    <a href='https://twitter.com/'>
-                        <img className='social-logo' src={TwitterLogo} alt='tw-logo'/>
-                    </a>
+                <div className='contact-links'>
+                    <div className='wrap-social-logo'>
+                        <a href='https://www.facebook.com/TheFinds4Seekers-109107327482391/'>
+                            <img className='social-logo' src={FbLogo} alt='fb-logo'/>
+                        </a>
+                        <a href='https://twitter.com/finds4seekers'>
+                            <img className='social-logo' src={TwitterLogo} alt='tw-logo'/>
+                        </a>
+                    </div>
+                    <div className='company-info'>
+                        <a 
+                            className='company-email' 
+                            href="mailto:thefinds4seekers@gmail.com"
+                        >
+                            thefinds4seekers@gmail.com
+                        </a>
+                        <div className='company-subinfo'>
+                            {new Date().getFullYear()} TheFinds4Seekers, Inc. All rights reserved.
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </footer>
     )

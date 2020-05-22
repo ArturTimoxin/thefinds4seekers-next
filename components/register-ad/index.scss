@@ -15,6 +15,9 @@
     display: flex;
     justify-content: center;
     margin-bottom: 200px;
+    @media screen and (max-width: 1096px) {
+        margin-bottom: 100px;
+    }
 } 
 
 .register-ad-form {
@@ -29,16 +32,32 @@
     padding: 40px 40px 20px 40px;
     color: #464947;
     display: flex;
+    @media screen and (max-width: 1366px) {
+        width: 85%;
+    }
+    @media screen and (max-width: 1096px) {
+        width: 85%;
+        flex-direction: column;
+    }
 }
 
 .reg-form-main-column-wrap {
     width: 65%;
     min-width: 300px;
+    min-width: 427px;
+    @media screen and (max-width: 1096px) {
+        width: 100%;
+    }
 }
 
 .wrap-head-reg-form {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    @media screen and (max-width: 1096px) {
+        flex-direction: column;
+        align-items: flex-start;
+    }
     .title-register-ad-form {
         text-transform: uppercase;
         margin: 0;
@@ -46,6 +65,12 @@
     .choose-type-text {
         margin-left: 20px;
         font-size: 20px;
+        min-width: 210px;
+        @media screen and (max-width: 1698px) {
+            margin-left: 0px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
     }
 }
 
@@ -63,20 +88,28 @@
 
 .reg-form-subcolumn-wrap {
     width: 35%;
-    padding: 50px 50px 0px 50px;
+    min-width: 375px;
+    margin-left: 50px;
+    padding: 0px;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    @media screen and (max-width: 1096px) {
+        width: 100%;
+        margin-left: 0px;
+        margin-top: 20px;
+    }
 }
 
 .upload-photos {
     opacity: 0;
     position: absolute;
     z-index: -1;
+    width: 100%;
 }
 
-.choose-photos-label {
+.choose-photos-wrap {
     cursor: pointer;
 }
 
@@ -93,6 +126,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        position: relative;
     }
     .sub-photos-inputs-wrap {
         width: 30%;
@@ -106,6 +140,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
         }
     }
     .photo-preview {
@@ -130,4 +165,14 @@
     margin: 10px 0px 0px 0px;
     color: #5a5a5b;
     font-size: 12px;
+}
+
+.type-ad-picker-wrap {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.react-datepicker-wrapper {
+    width: 100%;
 }

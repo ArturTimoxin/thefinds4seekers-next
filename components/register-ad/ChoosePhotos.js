@@ -49,55 +49,55 @@ const ChoosePhotos = ({ typeAd, photos = [] }) => {
 
     return (
         <Form.Field>
-            <label className='choose-photos-label'>
+            <label className='choose-photos-wrap'>
                 {`Choose photos of your ${typeAd === AD_LOST_TYPE_ID ? 'lost' : 'found'}:`}
                 <div className='choose-photos-input'>
-                    <label htmlFor="main-photo" className='main-photo-input choose-photos-label'>
+                    <label htmlFor="main-photo" className='main-photo-input choose-photos-wrap'>
                         {photos[0] ? (
                             getPhotoImg(mainPhoto, photos[0])
                         ) : (
                             getPhotoImg(mainPhoto)
                         )}
+                        <input 
+                            name="mainPhoto"
+                            className='upload-photos'
+                            id="main-photo"
+                            type="file"
+                            accept=".jpg, .jpeg, .png"
+                            onChange={onChangePhoto}
+                        />
                     </label>
-                    <input 
-                        name="mainPhoto"
-                        className='upload-photos'
-                        id="main-photo"
-                        type="file"
-                        accept=".jpg, .jpeg, .png"
-                        onChange={onChangePhoto}
-                    />
                     <div className='sub-photos-inputs-wrap'>
-                        <label htmlFor='sub-photo-one' className='sub-photo-input choose-photos-label'>
+                        <label htmlFor='sub-photo-one' className='sub-photo-input choose-photos-wrap'>
                             {photos[1] ? (
                                 getPhotoImg(subPhotoOne, photos[1])
                             ) : (
                                 getPhotoImg(subPhotoOne)
                             )}
+                            <input 
+                                name="subPhotoOne"
+                                className='upload-photos'
+                                id="sub-photo-one"
+                                type="file"
+                                accept=".jpg, .jpeg, .png"
+                                onChange={onChangePhoto}
+                            />
                         </label>
-                        <input 
-                            name="subPhotoOne"
-                            className='upload-photos'
-                            id="sub-photo-one"
-                            type="file"
-                            accept=".jpg, .jpeg, .png"
-                            onChange={onChangePhoto}
-                        />
-                        <label htmlFor='sub-photo-two' className='sub-photo-input choose-photos-label'>
+                        <label htmlFor='sub-photo-two' className='sub-photo-input choose-photos-wrap'>
                             {photos[2] ? (
                                 getPhotoImg(subPhotoTwo, photos[2])
                             ) : (
                                 getPhotoImg(subPhotoTwo)
                             )}
+                            <input 
+                                name="subPhotoTwo"
+                                className='upload-photos'
+                                id="sub-photo-two"
+                                type="file"
+                                accept=".jpg, .jpeg, .png"
+                                onChange={onChangePhoto}
+                            />
                         </label>
-                        <input 
-                            name="subPhotoTwo"
-                            className='upload-photos'
-                            id="sub-photo-two"
-                            type="file"
-                            accept=".jpg, .jpeg, .png"
-                            onChange={onChangePhoto}
-                        />
                     </div>
                 </div>
             </label>

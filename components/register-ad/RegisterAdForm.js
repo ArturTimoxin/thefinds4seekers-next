@@ -35,6 +35,7 @@ const RegisterAdForm = ({
     titleAdForm = 'Registration Ad',
     photos = [],
     subInfoText,
+    point,
 }) => {
 
     const textTypeAd = typeAd === AD_LOST_TYPE_ID ? 'lost' : 'found';
@@ -48,13 +49,15 @@ const RegisterAdForm = ({
                     <div className='reg-form-main-column-wrap'>
                         <div className='wrap-head-reg-form'>
                             <h1 className='title-register-ad-form'>{titleAdForm}</h1>
-                            <span className='choose-type-text'> 
-                                Choose the type of ad: <RedStar />
-                            </span>
-                            <ChooseTypeAd 
-                                typeAd={typeAd}
-                                setTypeAd={setTypeAd}
-                            />
+                            <div className='type-ad-picker-wrap'>
+                                <span className='choose-type-text'> 
+                                    Choose the type of ad: <RedStar />
+                                </span>
+                                <ChooseTypeAd 
+                                    typeAd={typeAd}
+                                    setTypeAd={setTypeAd}
+                                />
+                            </div>
                         </div>
                         <div className='reg-form-fields'>
                             <Form.Field required>
@@ -107,7 +110,7 @@ const RegisterAdForm = ({
                                     name='address' 
                                     required 
                                     placeholder='Choose it on the map above...'
-                                    disabled={!address.length} 
+                                    disabled={!point.lat || !point.lng} 
                                 />
                             </Form.Field>
                             {typeAd === AD_FOUND_TYPE_ID && (
@@ -146,6 +149,7 @@ const RegisterAdForm = ({
                             <Form.Field>
                                 <label>Date when it was {textTypeAd}:</label>
                                 <DatePicker
+                                    style={{ width: '100%' }}
                                     selected={lostOrFoundAt}
                                     onChange={date => {
                                         setErrMessage('');

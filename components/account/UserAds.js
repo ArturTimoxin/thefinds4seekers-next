@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import LoadingPlaceholder from '../common/LoadingPlaceholader';
-import { Item, Confirm } from 'semantic-ui-react';
+import { Item, Confirm, Message } from 'semantic-ui-react';
 import UserAdItem from './UserAdItem';
 import API from '../../utils/API';
+import Link from 'next/link';
 
 const UserAds = ({ userAds, isLoad, getUserAds }) => {
 
@@ -26,6 +27,15 @@ const UserAds = ({ userAds, isLoad, getUserAds }) => {
                 setIdAdForDelete(null);
                 getUserAds();
            })
+    }
+
+    if(!userAds.length) {
+        return (
+            <Message size='huge'>
+                No ads were created ->
+                <Link href='/register-ad'>Create it</Link>
+            </Message>
+        )
     }
 
     return (

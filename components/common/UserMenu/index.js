@@ -1,8 +1,10 @@
 import React from 'react';
 import { Menu } from 'semantic-ui-react';
 import { useRouter } from 'next/router';
+import { connect } from "react-redux";
+import { actions } from '../../../store';
 
-const UserMenu = ({ children }) => {
+const UserMenu = ({ children, logout }) => {
 
     const router = useRouter();
 
@@ -34,14 +36,19 @@ const UserMenu = ({ children }) => {
                 >
                     Answers
                 </Menu.Item>
-
                 <Menu.Item
+                    onClick={logout}
+                    className='logout-menu-item'
+                >
+                    Logout
+                </Menu.Item>
+                {/* <Menu.Item
                     name='/commentaries'
                     onClick={onClickItem}
                     active={router.pathname.includes('account/commentaries')}
                 >
                     Commentaries
-                </Menu.Item>
+                </Menu.Item> */}
             </Menu>
             <div
                 className='account-content-wrap'
@@ -52,4 +59,8 @@ const UserMenu = ({ children }) => {
     )
 }
 
-export default UserMenu;
+const mapDispatchToProps = dispatch => ({
+    logout: () => dispatch(actions.app.logout()),
+});
+
+export default connect(null, mapDispatchToProps)(UserMenu);

@@ -1,5 +1,7 @@
 import * as constants from './actionTypes';
 import API from '../../utils/API';
+import { toastSuccess } from '../../utils/toastrConfig';
+import Router from 'next/router';
 
 export const login = (userData, token) => {
 
@@ -16,6 +18,8 @@ export const login = (userData, token) => {
 export const logout = () => {
     localStorage.removeItem('userData');
     localStorage.removeItem('token');
+    toastSuccess('You were successfully logged out!');
+    Router.push('/');
     return dispatch => {
         dispatch({ type: constants.LOGOUT })
     }

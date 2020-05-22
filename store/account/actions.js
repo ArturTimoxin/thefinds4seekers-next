@@ -175,8 +175,16 @@ export const onSumbitEditAd = event => {
             dispatch(editAdSetErrorMessage('Enter title of your Ad'));
             return;
         }
+        if(title.length < 5 || title.length > 50) {
+            dispatch(editAdSetErrorMessage('The title must consist of at least 5 and no more than 40 characters'));
+            return;
+        }
         if(!description.length) {
             dispatch(editAdSetErrorMessage('Enter description of your Ad'));
+            return;
+        }
+        if(description.length < 10) {
+            setErrMessage('The description must consist of at least 10 characters');
             return;
         }
         if(!categoryId) {
@@ -189,6 +197,10 @@ export const onSumbitEditAd = event => {
         }
         if(!address.length) {
             dispatch(editAdSetErrorMessage(`Enter address where you ${typeAd === AD_FOUND_TYPE_ID ? 'found' : 'lost'} it`));
+            return;
+        }
+        if(address.length < 10) {
+            dispatch(editAdSetErrorMessage(`The address must consist of at least 10 characters`));
             return;
         }
         if(secretQuestion && !secretAnswer.length) {

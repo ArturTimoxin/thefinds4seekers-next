@@ -17,12 +17,16 @@
     display: flex;
     flex: 1;
     justify-content: space-between;
+    @media screen and (max-width: 1000px) {
+        flex-direction: column;
+    }
 }
 
 .user-ad-info-wrap {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    margin-right: 10px;
 }
 
 .user-ad-subcolumn {
@@ -31,16 +35,25 @@
     height: 100%;
     justify-content: space-between;
     align-items: center;
+    @media screen and (max-width: 1000px) {
+        flex-direction: row;
+    }
 }
 
 .list-actions-wrap {
     display: flex;
     flex-direction: column;
+    @media screen and (max-width: 1000px) {
+        flex-direction: row;
+    }
 }
 
 .list-action {
     width: 150px;
     margin-bottom: 10px !important;
+    @media screen and (max-width: 1000px) {
+        width: 100px;
+    }
 }
 
 .actual-to-text {
@@ -69,4 +82,8 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-end;
+}
+
+.answers-acordion {
+    margin-bottom: 100px;
 }

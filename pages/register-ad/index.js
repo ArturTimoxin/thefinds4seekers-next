@@ -43,10 +43,21 @@ const RegisterAd = ({ adsCategories, userData, login }) => {
             setErrMessage('Enter title of your Ad');
             return;
         }
+        if(title.length < 5 || title.length > 50) {
+            setErrMessage('The title must consist of at least 5 and no more than 40 characters');
+            return;
+        }
+
         if(!description.length) {
             setErrMessage('Enter description of your Ad');
             return;
         }
+
+        if(description.length < 10) {
+            setErrMessage('The description must consist of at least 10 characters');
+            return;
+        }
+
         if(!categoryId) {
             setErrMessage('Choose category');
             return;
@@ -57,6 +68,10 @@ const RegisterAd = ({ adsCategories, userData, login }) => {
         }
         if(!address.length) {
             setErrMessage(`Enter address where you ${typeAd === AD_FOUND_TYPE_ID ? 'found' : 'lost'} it`);
+            return;
+        }
+        if(address.length < 10) {
+            setErrMessage(`The address must consist of at least 10 characters`);
             return;
         }
         if(secretQuestion && !secretAnswer.length) {
@@ -175,6 +190,7 @@ const RegisterAd = ({ adsCategories, userData, login }) => {
                 errMessage={errMessage}
                 setErrMessage={setErrMessage}
                 isLoadSubmitForm={isLoadSubmitForm}
+                point={point}
             />
             <InfoModal 
                 onClose={onCloseInfoModal}
