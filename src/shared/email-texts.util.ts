@@ -32,9 +32,7 @@ export function getSuccessfulSaveAnswerText(adTitle: string): string {
     return `
 Your answer on ad ${adTitle} has been sent to the author of it!
 
-You can check it in your user account.
-
-When you got approved for getting contacts of the autor, you will get a letter with this info and can check it into your user account.
+When you got approved for getting contacts of the autor, you will get a letter with this info.
 
 Best regards,
 thefinds4seekers team
@@ -50,9 +48,7 @@ Also, you already registered in our service:
 Login: ${email}
 Password: ${password}
 
-When you got approved for getting contacts of the autor, you will get a letter with this info and can check it into your user account.
-
-You can check it in your user account.
+When you got approved for getting contacts of the autor, you will get a letter with this info.
 
 Best regards,
 thefinds4seekers team
@@ -61,9 +57,7 @@ thefinds4seekers team
 
 export function sendAnswerToAdAutor(adTitle: string, adSecretQuestion: string, answer: string, user, isCorrect): string {
     return `
-Your ad "${adTitle}" got answer from user!
-
-Your ad of your found got answer on the secret question.
+Ad of your found  "${adTitle}" got answer on the secret question from user!
 
 Your question: ${adSecretQuestion}
 
