@@ -253,7 +253,7 @@ export const onSumbitEditAd = event => {
 
 export const toggleIsLoadEditData = () => {
     return {
-        type: constants.TOGGLE_IS_LOAD_EDIT_AD_DATA,
+        type: constants.TOGGLE_IS_LOAD_ANSWERS,
     }
 }
 
