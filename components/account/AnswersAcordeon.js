@@ -3,20 +3,9 @@ import { Accordion, Confirm, Message } from 'semantic-ui-react'
 import AnswersAccordeonBlock from './AnswersAccordeonBlock';
 import InfoModal from '../common/InfoModal';
 import API from '../../utils/API';
+import LoadingPlaceholder from '../../components/common/LoadingPlaceholader';
 
 const AnswersAcordeon = ({ answers, isLoad, getAnswers }) => {
-
-    if(isLoad) {
-        return (
-            <>
-                <LoadingPlaceholder />
-                <LoadingPlaceholder />
-                <LoadingPlaceholder />
-                <LoadingPlaceholder />
-                <LoadingPlaceholder />
-            </>
-        )
-    }
 
     const [activeIndexes, setActiveIndexes] = useState([0, 1, 2, 3]);
     const [idAnswerForDelete, setIdAnswerForDelete] = useState(null);
@@ -48,6 +37,18 @@ const AnswersAcordeon = ({ answers, isLoad, getAnswers }) => {
            .then(resp => {
                 setTextInfoModal('We are very glad that we helped you, and you helped someone! We hope that you will be able to contact this person!');
            })
+    }
+
+    if(isLoad) {
+        return (
+            <>
+                <LoadingPlaceholder />
+                <LoadingPlaceholder />
+                <LoadingPlaceholder />
+                <LoadingPlaceholder />
+                <LoadingPlaceholder />
+            </>
+        )
     }
 
     if(!answers.length) {

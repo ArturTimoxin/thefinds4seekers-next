@@ -169,7 +169,7 @@ export default (state = initialState, action) => {
             }
         }
         // answers
-        case constants.TOGGLE_IS_LOAD_EDIT_AD_DATA: {
+        case constants.TOGGLE_IS_LOAD_ANSWERS: {
             return {
                 ...state,
                 isLoadAnswers: !state.isLoadAnswers,
